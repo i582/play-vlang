@@ -142,10 +142,10 @@ fn vfmt_code(code string) (string, bool) {
 	defer {
 		// os.execute('isolate --box-id=$box_id --cleanup')
 	}
-	os.write_file(os.join_path('server', 'code.v'), code) or {
+	os.write_file(os.join_path('server_data', 'code.v'), code) or {
 		return 'Failed to write code to sandbox.', false
 	}
-	vfmt_res := os.execute('$vexeroot/v fmt server/code.v')
+	vfmt_res := os.execute('$vexeroot/v fmt ./server_data/code.v')
 	mut vfmt_output := vfmt_res.output.trim_right('\n')
 	if vfmt_res.exit_code != 0 {
 		return prettify(vfmt_output), false
