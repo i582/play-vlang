@@ -85,7 +85,7 @@ fn run_in_sandbox(code string) string {
 		return 'Failed to write code to sandbox.'
 	}
 	// build_res := os.execute('$vexeroot/v -gc boehm ./server_data/code.v')
-	build_res := os.execute('isolate --box-id=$box_id --dir=$vexeroot --env=HOME=/box --processes=1 --mem=10000000 --wall-time=4 --quota=${1048576 / block_size},${1048576 / inode_ratio} --run -- $vexeroot/v -gc boehm code.v')
+	build_res := os.execute('isolate --box-id=$box_id --dir=$vexeroot --env=HOME=/box --processes=1 --mem=10000000 --wall-time=4 --quota=${1048576 / block_size},${1048576 / inode_ratio} --run -- $vexeroot/v -cflags -DGC_MARKERS=1 -no-parallel code.v')
 	build_output := build_res.output.trim_right('\n')
 	log_code(code, build_output) or { eprintln('[WARNING] Failed to log code.') }
 	if build_res.exit_code != 0 {
