@@ -84,7 +84,7 @@ class Playground {
         this.clearTerminal();
         this.writeToTerminal("Running code...\n")
 
-        fetch("http://localhost:5555/run", {
+        fetch("/run", {
             method: "post",
             body: data,
         })
@@ -107,7 +107,7 @@ class Playground {
         this.clearTerminal();
         this.writeToTerminal("Formatting code...\n")
 
-        fetch("http://localhost:5555/format", {
+        fetch("/format", {
             method: "post",
             body: data
         })
@@ -135,7 +135,7 @@ class Playground {
 
         this.clearTerminal();
 
-        fetch("http://localhost:5555/share", {
+        fetch("/share", {
             method: "post",
             body: data
         })
