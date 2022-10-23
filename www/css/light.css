@@ -1,11 +1,3 @@
-body {
-    background-color: #fff;
-}
-
-.CodeMirror.cm-s-light {
-    background-color: #fff;
-}
-
 .cm-s-light .cm-keyword { color: #0033b3; }
 .cm-s-light .cm-builtin { color: #0033b3; }
 .cm-s-light .cm-atom { color: #219; }
