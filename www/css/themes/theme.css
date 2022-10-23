@@ -1,0 +1,37 @@
+html {
+    --background-color: #fff;
+    --terminal-header-border: #ecedf1;
+    --terminal-header: #f7f8fa;
+    --terminal-header-text: #000;
+    --terminal-close-button: #777b88;
+    --terminal-close-button-hover: #ecedf1;
+    --terminal-text: #000;
+    --terminal-background: #fff;
+    --terminal-ok: #26ad2c;
+    --terminal-error: #c02929;
+    --select-background: #fff;
+    --select-background-hover: #f7f8fa;
+    --select-color-hover: #000;
+    --select-color: #000;
+    --playground-link: #4f4f4f;
+    --run-embeded-icon-color: #000000;
+}
+
+html[data-theme='dark'] {
+    --background-color: #1e1f22;
+    --terminal-header-border: #323438;
+    --terminal-header: #2a2a2d;
+    --terminal-header-text: #f7f8fa;
+    --terminal-close-button: #d9dbe2;
+    --terminal-close-button-hover: #393b41;
+    --terminal-text: #BBBBBB;
+    --terminal-background: #000;
+    --terminal-ok: #43c449;
+    --terminal-error: #e04949;
+    --select-background: #2a2a2d;
+    --select-background-hover: #393b41;
+    --select-color-hover: #f7f8fa;
+    --select-color: #f7f8fa;
+    --playground-link: #8d8d8d;
+    --run-embeded-icon-color: #fff;
+}
