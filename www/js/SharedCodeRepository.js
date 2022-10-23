@@ -24,7 +24,7 @@ class SharedCodeRepository {
         const data = new FormData()
         data.append("hash", this.hash)
 
-        fetch("http://localhost:5555/query", {
+        fetch("/query", {
             method: "post",
             body: data
         })
