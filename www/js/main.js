@@ -1,7 +1,7 @@
 const html = document.querySelector("html");
 const theme = window.localStorage.getItem('theme') || 'dark';
 const editorFontSize = window.localStorage.getItem('editor-font-size')
-const savedCode = window.localStorage.getItem('code') || ""
+const savedCode = window.localStorage.getItem('code') || welcomeCode
 const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
 
 window.onload = function () {

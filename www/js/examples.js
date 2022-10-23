@@ -190,3 +190,16 @@ fn get_int(data string, field string) int {
         .trim();
     return example;
 })
+
+const welcomeCode = `
+// Welcome to the V Playground!
+// Here you can edit, run, and share V code.
+// Let's start with a simple "Hello, World!" example:
+println('Hello, World!')
+
+// More examples are available in right dropdown list.
+// You can find Help for shortcuts in the bottom right corner or just press ⌃ + H (Ctrl + H).
+// See also change theme button in the top right corner. 
+// If you want to learn more about V, visit https://vlang.io
+// Enjoy!
+`.trim()
