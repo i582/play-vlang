@@ -80,7 +80,7 @@ fn run_in_sandbox(code string) string {
 	defer {
 		// os.execute('isolate --box-id=$box_id --cleanup')
 	}
-	os.write_file(os.join_path('server', 'code.v'), code) or {
+	os.write_file(os.join_path('server_data', 'code.v'), code) or {
 		return 'Failed to write code to sandbox.'
 	}
 	build_res := os.execute('$vexeroot/v -gc boehm ./server_data/code.v')
