@@ -29,7 +29,7 @@ mut:
 
 ['/'; get]
 fn (mut app App) index() vweb.Result {
-	file := os.read_file('../www/index.html') or { panic(err) }
+	file := os.read_file('www/index.html') or { panic(err) }
 	return app.html(file)
 }
 
