@@ -154,7 +154,7 @@ fn vfmt_code(code string) (string, bool) {
 	if vfmt_res.exit_code != 0 {
 		return prettify(vfmt_output), false
 	} else {
-		return vfmt_output, true
+		return vfmt_output.all_before_last('\n'), true
 	}
 }
 
