@@ -8,7 +8,7 @@ import sqlite
 import crypto.md5
 
 const (
-	port        = 5555
+	port        = 5556
 	vexeroot    = @VEXEROOT
 	block_size  = 4096
 	inode_ratio = 16384
@@ -186,8 +186,8 @@ fn (mut app App) init_once() {
 	}
 	app.db = db
 	os.execute('isolate --cleanup')
-	app.handle_static('www', true)
-	app.serve_static('/www/js/', 'www/js/')
+	app.handle_static('./www', true)
+	app.serve_static('./www/js', 'www/js/')
 }
 
 fn main() {
