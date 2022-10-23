@@ -186,8 +186,8 @@ fn (mut app App) init_once() {
 	}
 	app.db = db
 	os.execute('isolate --cleanup')
-	app.handle_static('static', true)
-	app.serve_static('/static/js/codejar.js', 'static/js/codejar.js')
+	app.handle_static('www', true)
+	app.serve_static('/www/js/')
 }
 
 fn main() {
