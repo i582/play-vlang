@@ -187,7 +187,7 @@ fn (mut app App) init_once() {
 	app.db = db
 	os.execute('isolate --cleanup')
 	app.handle_static('www', true)
-	app.serve_static('/www/js/')
+	app.serve_static('/www/js/', 'www/js/')
 }
 
 fn main() {
