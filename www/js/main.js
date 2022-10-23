@@ -1,8 +1,8 @@
 const html = document.querySelector("html");
-const theme = window.localStorage.getItem('theme')
+const theme = window.localStorage.getItem('theme') || 'dark';
 const editorFontSize = window.localStorage.getItem('editor-font-size')
-const savedCode = window.localStorage.getItem('code')
-const isMac = navigator.platform.toUpperCase().indexOf('MAC')>=0;
+const savedCode = window.localStorage.getItem('code') || ""
+const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
 
 window.onload = function () {
     if (theme === 'dark') {
@@ -172,6 +172,7 @@ if (!isMac) {
         shortcut.innerText = shortcut.innerText.replace('⌃', 'Ctrl')
     })
 }
+
 function saveCode() {
     window.localStorage.setItem('code', editor.getValue());
 }
@@ -188,6 +189,7 @@ function setEditorFontSize(size) {
     cm.style.fontSize = size + "px"
     editor.refresh()
 }
+
 function changeEditorFontSize(delta) {
     const cm = document.getElementsByClassName("CodeMirror")[0];
     const fontSize = window.getComputedStyle(cm, null).getPropertyValue('font-size');
@@ -229,7 +231,7 @@ function openTerminal() {
     if (terminal.classList.contains('closed')) {
         terminal.classList.remove('closed')
         const editor = document.getElementsByClassName('editor')[0]
-        editor.style.height = "calc(100vh - 250px - 70px)"
+        editor.style.height = "calc(100vh - 250px - 115px)" // hack for now
     }
 }
 
@@ -272,6 +274,7 @@ function runCode() {
         })
         .catch(err => {
             console.log(err);
+            writeToTerminal("Can't run code. Please try again.")
         })
 }
 
@@ -297,5 +300,9 @@ function formatCode() {
                 clearTerminal()
                 writeToTerminal(json.output)
             }
+        })
+        .catch(err => {
+            console.log(err);
+            writeToTerminal("Can't format code. Please try again.")
         })
 }

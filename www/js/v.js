@@ -85,7 +85,7 @@ CodeMirror.defineMode("v", function (config) {
 
         if (state.context.insideString && ch === '}') {
             stream.eat('}');
-            state.tokenize = tokenString('"');
+            state.tokenize = tokenString(state.context.stringQuote);
             return state.tokenize(stream, state);
         }
 
@@ -144,10 +144,9 @@ CodeMirror.defineMode("v", function (config) {
         return "variable";
     }
 
-    // TODO: support all quotes
     function tokenLongInterpolation(stream, state) {
         if (stream.match("}")) {
-            state.tokenize = tokenString('"');
+            state.tokenize = tokenString(state.context.stringQuote);
             return state.tokenize(stream, state);
         }
         state.tokenize = tokenBase;
@@ -158,7 +157,7 @@ CodeMirror.defineMode("v", function (config) {
         const ch = stream.next();
         if (ch === ' ') {
             state.context.afterDotInsideInterpolation = false;
-            state.tokenize = tokenString('"');
+            state.tokenize = tokenString(state.context.stringQuote);
             return state.tokenize(stream, state);
         }
         if (ch === '.') {
@@ -167,7 +166,7 @@ CodeMirror.defineMode("v", function (config) {
 
         const ident = eatIdentifier(stream);
         if (ident[0].toLowerCase() === ident[0].toUpperCase()) {
-            state.tokenize = tokenString('"');
+            state.tokenize = tokenString(state.context.stringQuote);
             return state.tokenize(stream, state);
         }
 
@@ -177,7 +176,7 @@ CodeMirror.defineMode("v", function (config) {
             state.tokenize = tokenShortInterpolation;
             state.context.afterDotInsideInterpolation = true
         } else {
-            state.tokenize = tokenString('"');
+            state.tokenize = tokenString(state.context.stringQuote);
         }
 
         if (state.context.afterDotInsideInterpolation) {
@@ -190,6 +189,7 @@ CodeMirror.defineMode("v", function (config) {
     function tokenString(quote) {
         return function (stream, state) {
             state.context.insideString = true;
+            state.context.stringQuote = quote;
 
             let escaped = false;
             let next = '';
@@ -208,14 +208,15 @@ CodeMirror.defineMode("v", function (config) {
                     state.tokenize = tokenShortInterpolation;
                     return "string";
                 }
-                escaped = !escaped && quote !== "`" && next === "\\";
+                escaped = !escaped && next === "\\";
             }
 
-            if (end || !(escaped || quote === "`")) {
+            if (end || escaped) {
                 state.tokenize = tokenBase;
             }
 
             state.context.insideString = false;
+            state.context.stringQuote = null;
             return "string";
         };
     }
@@ -239,6 +240,7 @@ CodeMirror.defineMode("v", function (config) {
         this.align = align;
         this.prev = prev;
         this.insideString = false;
+        this.stringQuote = null;
         this.afterDotInsideInterpolation = true;
     }
 
@@ -253,22 +255,6 @@ CodeMirror.defineMode("v", function (config) {
             state.indented = state.context.indented;
         return state.context = state.context.prev;
     }
-
-    function myCompletions(context) {
-        let word = context.matchBefore(/\w*/)
-        if (word.from == word.to && !context.explicit)
-            return null
-        return {
-            from: word.from,
-            options: [
-                {label: "match", type: "keyword"},
-                {label: "hello", type: "variable", info: "(World)"},
-                {label: "magic", type: "text", apply: "⠁⭒*.✩.*⭒⠁", detail: "macro"}
-            ]
-        }
-    }
-
-    // Interface
 
     return {
         startState: function (basecolumn) {
@@ -322,9 +308,6 @@ CodeMirror.defineMode("v", function (config) {
         blockCommentStart: "/*",
         blockCommentEnd: "*/",
         lineComment: "//",
-        data: {
-            autocomplete: myCompletions
-        },
     };
 });
 
