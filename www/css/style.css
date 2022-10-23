@@ -144,7 +144,7 @@ header .container button .icon .run-icon {
 
 .editor {
     position: relative;
-    height: calc(100vh - 70px - 250px);
+    height: calc(100vh - 115px - 250px);
 }
 
 .CodeMirror {
@@ -158,6 +158,7 @@ header .container button .icon .run-icon {
 
 .CodeMirror-scroll {
     padding-top: 20px;
+    padding-bottom: 0;
 }
 
 .CodeMirror-line {
@@ -232,7 +233,7 @@ header .container button .icon .run-icon {
 }
 
 .examples-select {
-    width: 170px;
+    width: 220px;
     height: 30px;
     background-color: #0000cc;
 
