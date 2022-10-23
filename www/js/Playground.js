@@ -142,7 +142,7 @@ class Playground {
             .then(resp => resp.text())
             .then(data => {
                 this.writeToTerminal("Code shared successfully!\n")
-                this.writeToTerminal("Share link: http://localhost:63342/play-vlang/www/index.html?query=" + data + "\n")
+                this.writeToTerminal("Share link: https://pmakhnev.tech/?query=" + data + "\n")
 
                 const newURL = updateURLParameter(window.location.href, 'query', data);
                 window.history.replaceState('', '', newURL);
