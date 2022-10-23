@@ -8,7 +8,7 @@ import sqlite
 import crypto.md5
 
 const (
-	port        = 5556
+	port        = 5555
 	vexeroot    = @VEXEROOT
 	block_size  = 4096
 	inode_ratio = 16384
