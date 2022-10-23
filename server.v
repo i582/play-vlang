@@ -37,6 +37,7 @@ fn init_sandbox() (string, int) {
 	for {
 		for box_id in 0 .. 1000 {
 			iso_res := os.execute('isolate --box-id=$box_id --init')
+			println(iso_res)
 			if iso_res.exit_code == 0 {
 				box_path := os.join_path(iso_res.output.trim_string_right('\n'), 'box')
 				return box_path, box_id
