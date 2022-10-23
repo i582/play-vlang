@@ -83,13 +83,13 @@ fn run_in_sandbox(code string) string {
 	os.write_file(os.join_path('server', 'code.v'), code) or {
 		return 'Failed to write code to sandbox.'
 	}
-	build_res := os.execute('$vexeroot/v -gc boehm ./server/code.v')
+	build_res := os.execute('$vexeroot/v -gc boehm ./server_data/code.v')
 	build_output := build_res.output.trim_right('\n')
 	log_code(code, build_output) or { eprintln('[WARNING] Failed to log code.') }
 	if build_res.exit_code != 0 {
 		return prettify(build_output)
 	}
-	run_res := os.execute('./server/code')
+	run_res := os.execute('./server_data/code')
 	return prettify(run_res.output.trim_right('\n'))
 }
 
