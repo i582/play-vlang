@@ -14,8 +14,8 @@ const (
 	inode_ratio = 16384
 )
 
-[table: 'code']
-struct Code {
+[table: 'code_storage']
+struct CodeStorage {
 	id   int    [primary; sql: serial] // a field named `id` of integer type must be the first field
 	code string [nonull]
 	hash string [nonull]
@@ -76,20 +76,22 @@ fn log_code(code string, build_res string) ? {
 }
 
 fn run_in_sandbox(code string) string {
-	// box_path, box_id := init_sandbox()
+	box_path, box_id := init_sandbox()
 	defer {
-		// os.execute('isolate --box-id=$box_id --cleanup')
+		os.execute('isolate --box-id=$box_id --cleanup')
 	}
-	os.write_file(os.join_path('server_data', 'code.v'), code) or {
+	os.write_file(os.join_path(box_path, 'code.v'), code) or {
 		return 'Failed to write code to sandbox.'
 	}
-	build_res := os.execute('$vexeroot/v -gc boehm ./server_data/code.v')
+	// build_res := os.execute('$vexeroot/v -gc boehm ./server_data/code.v')
+	build_res := os.execute('isolate --box-id=$box_id --dir=$vexeroot --env=HOME=/box --processes=3 --mem=100000 --wall-time=2 --quota=${1048576 / block_size},${1048576 / inode_ratio} --run -- $vexeroot/v -gc boehm code.v')
 	build_output := build_res.output.trim_right('\n')
 	log_code(code, build_output) or { eprintln('[WARNING] Failed to log code.') }
 	if build_res.exit_code != 0 {
 		return prettify(build_output)
 	}
-	run_res := os.execute('./server_data/code')
+	// run_res := os.execute('./server_data/code')
+	run_res := os.execute('isolate --box-id=$box_id --dir=$vexeroot --env=HOME=/box --processes=1 --mem=30000 --wall-time=2 --quota=${10240 / block_size},${10240 / inode_ratio} --run -- code')
 	return prettify(run_res.output.trim_right('\n'))
 }
 
@@ -116,20 +118,20 @@ fn (mut app App) get_by_hash() vweb.Result {
 }
 
 fn (mut app App) add_new_code(code string, hash string) {
-	new_code := Code{
+	new_code := CodeStorage{
 		code: code
 		hash: hash
 	}
 	db := app.db
 	sql db {
-		insert new_code into Code
+		insert new_code into CodeStorage
 	}
 }
 
 fn (mut app App) get_saved_code(hash string) !string {
 	db := app.db
 	found := sql db {
-		select from Code where hash == hash
+		select from CodeStorage where hash == hash
 	}
 	if found.len == 0 {
 		return error('Not Found')
@@ -138,14 +140,15 @@ fn (mut app App) get_saved_code(hash string) !string {
 }
 
 fn vfmt_code(code string) (string, bool) {
-	// box_path, box_id := init_sandbox()
+	box_path, box_id := init_sandbox()
 	defer {
-		// os.execute('isolate --box-id=$box_id --cleanup')
+		os.execute('isolate --box-id=$box_id --cleanup')
 	}
-	os.write_file(os.join_path('server_data', 'code.v'), code) or {
+	os.write_file(os.join_path(box_path, 'code.v'), code) or {
 		return 'Failed to write code to sandbox.', false
 	}
-	vfmt_res := os.execute('$vexeroot/v fmt ./server_data/code.v')
+	// vfmt_res := os.execute('$vexeroot/v fmt ./server_data/code.v')
+	vfmt_res := os.execute('isolate --box-id=$box_id --dir=$vexeroot --env=HOME=/box --processes=3 --mem=100000 --wall-time=2 --quota=${1048576 / block_size},${1048576 / inode_ratio} --run -- $vexeroot/v fmt code.v')
 	mut vfmt_output := vfmt_res.output.trim_right('\n')
 	if vfmt_res.exit_code != 0 {
 		return prettify(vfmt_output), false
@@ -166,8 +169,6 @@ fn (mut app App) format() vweb.Result {
 			output: 'No code was provided.'
 			ok: false
 		}
-		app.add_header('Access-Control-Allow-Origin', 'http://localhost:63342')
-		app.add_header('Access-Control-Allow-Credentials', 'true')
 		return app.json(json.encode(resp))
 	}
 	res, ok := vfmt_code(code)
@@ -180,9 +181,9 @@ fn (mut app App) format() vweb.Result {
 }
 
 fn (mut app App) init_once() {
-	db := sqlite.connect('customers.db') or { panic(err) }
+	db := sqlite.connect('code_storage.db') or { panic(err) }
 	sql db {
-		create table Code
+		create table CodeStorage
 	}
 	app.db = db
 	os.execute('isolate --cleanup')
