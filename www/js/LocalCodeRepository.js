@@ -10,7 +10,7 @@ class LocalCodeRepository {
     getCode(onReady) {
         const localCode = window.localStorage.getItem("code");
         if (localCode === null || localCode === undefined) {
-            return welcomeCode
+            onReady(welcomeCode)
         }
         onReady(localCode)
     }
