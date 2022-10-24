@@ -13,6 +13,9 @@ class ShareCodeResult {
     }
 }
 
+/**
+ * CodeRunner describes how to run, format and share code.
+ */
 class CodeRunner {
     public static runCode(code: string): Promise<RunCodeResult> {
         const data = new FormData()

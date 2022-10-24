@@ -1,8 +1,10 @@
 class HelpManager {
+    // TODO: don't know other way to detect macOS...
+    // noinspection JSDeprecatedSymbols
     static isMac = navigator.platform.toUpperCase().indexOf("MAC") >= 0
 
     private containingElement: HTMLElement
-    private element: HTMLElement
+    private readonly element: HTMLElement
     private readonly helpOverlay: HTMLElement
     private readonly showHelpButton: HTMLElement
     private readonly closeHelpButton: HTMLElement

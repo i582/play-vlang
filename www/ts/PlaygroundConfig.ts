@@ -1,3 +1,6 @@
+/**
+ * TODO: For future customizations.
+ */
 interface PlaygroundConfig {
     embed: boolean
     theme: ITheme

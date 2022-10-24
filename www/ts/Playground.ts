@@ -1,3 +1,6 @@
+/**
+ * PlaygroundDefaultAction describes the default action of a playground.
+ */
 enum PlaygroundDefaultAction {
     RUN = "run",
     FORMAT = "format",
@@ -5,6 +8,9 @@ enum PlaygroundDefaultAction {
     CHANGE_THEME = "change-theme",
 }
 
+/**
+ * Playground is responsible for managing the all playground.
+ */
 class Playground {
     private readonly queryParams: QueryParams
     private readonly repository: CodeRepository
@@ -13,6 +19,9 @@ class Playground {
     private readonly examplesManager: ExamplesManager
     private readonly helpManager: HelpManager
 
+    /**
+     * @param editorElement - The element that will contain the playground.
+     */
     constructor(editorElement: HTMLElement) {
         this.queryParams = new QueryParams(window.location.search)
         this.repository = CodeRepositoryManager.selectRepository(this.queryParams)
@@ -33,6 +42,11 @@ class Playground {
         this.helpManager = new HelpManager(editorElement)
     }
 
+    /**
+     * Register a handler for the default or new action.
+     * @param name - The name of the action.
+     * @param callback - The callback to be called when the action is triggered.
+     */
     public registerAction(name: PlaygroundDefaultAction | string, callback: () => void): void {
         const actionButton = document.getElementsByClassName(`js-playground__action-${name}`)[0]
         if (actionButton === undefined) {

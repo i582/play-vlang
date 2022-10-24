@@ -10,6 +10,9 @@
 class QueryParams {
     public readonly params: URLSearchParams
 
+    /**
+     * @param path - The path to parse (usually `window.location.search`).
+     */
     constructor(path: string) {
         this.params = new Proxy(new URLSearchParams(path), {
             get: (searchParams, prop) => searchParams.get(prop.toString()),

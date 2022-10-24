@@ -15,6 +15,9 @@ var ShareCodeResult = /** @class */ (function () {
     }
     return ShareCodeResult;
 }());
+/**
+ * CodeRunner describes how to run, format and share code.
+ */
 var CodeRunner = /** @class */ (function () {
     function CodeRunner() {
     }
@@ -224,10 +227,10 @@ var examples = [
     },
     {
         name: "Filter Log file",
-        code: "\n// Print file lines that start with \"DEBUG:\"\nimport os\n\n// `write_file` returns a result (`!`), it must be checked\nos.write_file('app.log', '\nERROR: log file not found\nDEBUG: create new file\nDEBUG: write text to log file\nERROR: file not writeble\n') or {\n    // `err` is a special variable that contains the error\n    // in `or {}` blocks\n    eprintln('failed to write the file: $err')\n    return\n}\n\n// `read_file` returns a result (`!string`), it must be checked\ntext := os.read_file('app.log') or {\n    eprintln('failed to read the file: $err')\n    return\n}\n\nlines := text.split_into_lines()\nfor line in lines {\n    if line.starts_with('DEBUG:') {\n        println(line)\n    }\n}\n\n// DEBUG: create new file\n// DEBUG: write text to log file\n",
+        code: "\n// Print file lines that start with \"DEBUG:\"\nimport os\n\n// `write_file` returns a result (`!`), it must be checked\nos.write_file('app.log', '\nERROR: log file not found\nDEBUG: create new file\nDEBUG: write text to log file\nERROR: file not writeable\n') or {\n    // `err` is a special variable that contains the error\n    // in `or {}` blocks\n    eprintln('failed to write the file: $err')\n    return\n}\n\n// `read_file` returns a result (`!string`), it must be checked\ntext := os.read_file('app.log') or {\n    eprintln('failed to read the file: $err')\n    return\n}\n\nlines := text.split_into_lines()\nfor line in lines {\n    if line.starts_with('DEBUG:') {\n        println(line)\n    }\n}\n\n// DEBUG: create new file\n// DEBUG: write text to log file\n",
     },
     {
-        name: "Compiletime Reflection",
+        name: "Compile-time Reflection",
         code: "\nstruct User {\n    name string\n    age  int\n}\n\nfn main() {\n    data := 'name=Alice\\nage=18'\n    user := decode&lt;User>(data)\n    println(user)\n}\n\nfn decode&lt;T>(data string) T {\n    mut result := T{}\n    // compile-time `for` loop\n    // T.fields gives an array of a field metadata type\n    $for field in T.fields {\n        $if field.typ is string {\n            // $(string_expr) produces an identifier\n            result.$(field.name) = get_string(data, field.name)\n        } $else $if field.typ is int {\n            result.$(field.name) = get_int(data, field.name)\n        }\n    }\n    return result\n}\n\nfn get_string(data string, field_name string) string {\n    for line in data.split_into_lines() {\n        key_val := line.split('=')\n        if key_val[0] == field_name {\n            return key_val[1]\n        }\n    }\n    return ''\n}\n\nfn get_int(data string, field string) int {\n    return get_string(data, field).int()\n}\n\n// `decode&lt;User>` generates:\n// fn decode_User(data string) User {\n//     mut result := User{}\n//     result.name = get_string(data, 'name')\n//     result.age = get_int(data, 'age')\n//     return result\n// }\n",
     },
 ].map(function (example) {
@@ -258,7 +261,7 @@ var CodeRepositoryManager = /** @class */ (function () {
             return new TextCodeRepository(config.code);
         }
         if (config !== undefined && config.embed !== null && config.embed !== undefined && config.embed) {
-            // By default editor is empty for embed mode.
+            // By default, editor is empty for embed mode.
             return new TextCodeRepository("");
         }
         var repository = new LocalCodeRepository();
@@ -326,7 +329,7 @@ var TextCodeRepository = /** @class */ (function () {
     function TextCodeRepository(text) {
         this.text = text;
     }
-    TextCodeRepository.prototype.saveCode = function (code) {
+    TextCodeRepository.prototype.saveCode = function (_) {
     };
     TextCodeRepository.prototype.getCode = function (onReady) {
         onReady(this.text);
@@ -432,9 +435,14 @@ var HelpManager = /** @class */ (function () {
         help.classList.toggle("opened");
         this.helpOverlay.classList.toggle("opened");
     };
+    // TODO: don't know other way to detect macOS...
+    // noinspection JSDeprecatedSymbols
     HelpManager.isMac = navigator.platform.toUpperCase().indexOf("MAC") >= 0;
     return HelpManager;
 }());
+/**
+ * PlaygroundDefaultAction describes the default action of a playground.
+ */
 var PlaygroundDefaultAction;
 (function (PlaygroundDefaultAction) {
     PlaygroundDefaultAction["RUN"] = "run";
@@ -442,7 +450,13 @@ var PlaygroundDefaultAction;
     PlaygroundDefaultAction["SHARE"] = "share";
     PlaygroundDefaultAction["CHANGE_THEME"] = "change-theme";
 })(PlaygroundDefaultAction || (PlaygroundDefaultAction = {}));
+/**
+ * Playground is responsible for managing the all playground.
+ */
 var Playground = /** @class */ (function () {
+    /**
+     * @param editorElement - The element that will contain the playground.
+     */
     function Playground(editorElement) {
         var _this = this;
         this.queryParams = new QueryParams(window.location.search);
@@ -460,6 +474,11 @@ var Playground = /** @class */ (function () {
         this.examplesManager.mount();
         this.helpManager = new HelpManager(editorElement);
     }
+    /**
+     * Register a handler for the default or new action.
+     * @param name - The name of the action.
+     * @param callback - The callback to be called when the action is triggered.
+     */
     Playground.prototype.registerAction = function (name, callback) {
         var actionButton = document.getElementsByClassName("js-playground__action-".concat(name))[0];
         if (actionButton === undefined) {
@@ -577,6 +596,9 @@ var Playground = /** @class */ (function () {
  * // The URL will be updated to: http://localhost:8080/?theme=dark
  */
 var QueryParams = /** @class */ (function () {
+    /**
+     * @param path - The path to parse (usually `window.location.search`).
+     */
     function QueryParams(path) {
         this.params = new Proxy(new URLSearchParams(path), {
             get: function (searchParams, prop) { return searchParams.get(prop.toString()); },
@@ -645,23 +667,6 @@ function copyTextToClipboard(text, onCopy) {
         console.log("Async: Could not copy text: ", err, "fallback to old method");
     });
 }
-var EmbedPlayground = /** @class */ (function () {
-    function EmbedPlayground(element, config) {
-        this.element = element;
-        this.config = config;
-    }
-    EmbedPlayground.prototype.mount = function () {
-        this.element.innerHTML = embedTemplate();
-        this.config.embed = true;
-        var editorElement = this.element.querySelector(".js-playground");
-        var playground = new Playground(editorElement);
-        playground.registerAction(PlaygroundDefaultAction.RUN, function () {
-            playground.runCode();
-        });
-    };
-    return EmbedPlayground;
-}());
-var embedTemplate = function () { return "\n<div class=\"js-playground v-playground\">\n    <div class=\"playground__editor\">\n        <textarea></textarea>\n\n        <button class=\"js-playground__action-run run\">\n            <span class=\"icon\">\n                <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                    <g clip-path=\"url(#clip0_1_5)\">\n                        <path class=\"run-icon\" d=\"M14.4657 8.20966L2.4657 15.1379L2.4657 1.28145L14.4657 8.20966Z\"/>\n                    </g>\n                    <defs>\n                        <clipPath id=\"clip0_1_5\">\n                            <rect width=\"16\" height=\"16\" fill=\"white\"/>\n                        </clipPath>\n                    </defs>\n                </svg>\n            </span>\n        </button>\n\n        <div class=\"js-terminal playground__terminal\">\n            <button class=\"js-terminal__close-buttom terminal__close-button\">\n                <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                    <rect class=\"close-terminal-button-rect\" x=\"1\" y=\"8\" width=\"13\" height=\"1\"/>\n                </svg>\n            </button>\n            <pre class=\"js-terminal__output terminal__output\"></pre>\n        </div>\n    </div>\n    \n    <a class=\"playground-link\" href=\"#\">Open in Playground \u2192</a>\n</div>\n"; };
 /**
  * ThemeManager is responsible for managing the theme of the playground.
  * It will register a callback to the change theme button and will update the

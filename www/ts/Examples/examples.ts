@@ -96,7 +96,7 @@ os.write_file('app.log', '
 ERROR: log file not found
 DEBUG: create new file
 DEBUG: write text to log file
-ERROR: file not writeble
+ERROR: file not writeable
 ') or {
     // \`err\` is a special variable that contains the error
     // in \`or {}\` blocks
@@ -122,7 +122,7 @@ for line in lines {
 `,
     },
     {
-        name: "Compiletime Reflection",
+        name: "Compile-time Reflection",
         code: `
 struct User {
     name string

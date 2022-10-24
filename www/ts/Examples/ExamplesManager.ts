@@ -1,5 +1,5 @@
 class ExamplesManager {
-    private selectElement: HTMLElement
+    private readonly selectElement: HTMLElement
     private onSelectHandler: (example: IExample) => void = null
 
     constructor() {

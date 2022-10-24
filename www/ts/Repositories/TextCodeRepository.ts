@@ -2,7 +2,7 @@ class TextCodeRepository implements CodeRepository {
     constructor(private text: string) {
     }
 
-    saveCode(code: string): void {
+    saveCode(_: string): void {
     }
 
     getCode(onReady: (string) => void): void {

@@ -20,7 +20,7 @@ class CodeRepositoryManager {
         }
 
         if (config !== undefined && config.embed !== null && config.embed !== undefined && config.embed) {
-            // By default editor is empty for embed mode.
+            // By default, editor is empty for embed mode.
             return new TextCodeRepository("")
         }
 
