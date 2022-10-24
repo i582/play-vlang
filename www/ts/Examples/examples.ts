@@ -8,7 +8,7 @@ const examples: IExample[] = [
         name: "Hello, World!",
         code: `
 println('Hello, world!')
-`
+`,
     },
     {
         name: "Fibonacci",
@@ -26,7 +26,7 @@ fn fib(n int) int {
 for i in 0 .. 30 {
     println(fib(i))
 }
-`
+`,
     },
     {
         name: "String interpolation",
@@ -35,7 +35,7 @@ areas := ['game', 'web', 'tools', 'science', 'systems', 'embedded', 'drivers', '
 for area in areas {
     println('Hello, $area developers!')
 }
-`
+`,
     },
     {
         name: "JSON Encoding/Decoding",
@@ -83,7 +83,7 @@ fn (u User) can_register() bool {
 fn (mut u User) register() {
     u.is_registered = true
 }
-`
+`,
     },
     {
         name: "Filter Log file",
@@ -119,7 +119,7 @@ for line in lines {
 
 // DEBUG: create new file
 // DEBUG: write text to log file
-`
+`,
     },
     {
         name: "Compiletime Reflection",
@@ -171,12 +171,12 @@ fn get_int(data string, field string) int {
 //     result.age = get_int(data, 'age')
 //     return result
 // }
-`
-    }
+`,
+    },
 ].map((example: IExample) => {
     example.code = example.code
         .replaceAll("    ", "    ")
         .replaceAll("&lt;", "<")
-        .trim();
-    return example;
+        .trim()
+    return example
 })

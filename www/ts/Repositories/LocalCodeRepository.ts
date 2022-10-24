@@ -1,4 +1,3 @@
-
 /**
  * Local code repository using the browser's local storage.
  */
@@ -23,7 +22,7 @@ println('Hello, World!')
     }
 
     getCode(onReady: (string) => void) {
-        const localCode = window.localStorage.getItem(LocalCodeRepository.LOCAL_STORAGE_KEY);
+        const localCode = window.localStorage.getItem(LocalCodeRepository.LOCAL_STORAGE_KEY)
         if (localCode === null || localCode === undefined) {
             onReady(LocalCodeRepository.WELCOME_CODE)
             return

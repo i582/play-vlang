@@ -13,7 +13,7 @@ class QueryParams {
     constructor(path: string) {
         this.params = new Proxy(new URLSearchParams(path), {
             get: (searchParams, prop) => searchParams.get(prop.toString()),
-        });
+        })
     }
 
     /**
@@ -23,26 +23,26 @@ class QueryParams {
      */
     public updateURLParameter(param: string, value: string) {
         const url = QueryParams.updateURLParameter(window.location.href, param, value)
-        window.history.replaceState({}, '', url)
+        window.history.replaceState({}, "", url)
     }
 
     private static updateURLParameter(url: string, param: string, value: string) {
-        let newAdditionalURL = "";
-        let tempArray = url.split("?");
-        const baseURL = tempArray[0];
-        const additionalURL = tempArray[1];
-        let temp = "";
+        let newAdditionalURL = ""
+        let tempArray = url.split("?")
+        const baseURL = tempArray[0]
+        const additionalURL = tempArray[1]
+        let temp = ""
         if (additionalURL) {
-            tempArray = additionalURL.split("&");
+            tempArray = additionalURL.split("&")
             for (let i = 0; i < tempArray.length; i++) {
-                if (tempArray[i].split('=')[0] !== param) {
-                    newAdditionalURL += temp + tempArray[i];
-                    temp = "&";
+                if (tempArray[i].split("=")[0] !== param) {
+                    newAdditionalURL += temp + tempArray[i]
+                    temp = "&"
                 }
             }
         }
 
-        const rows_txt = temp + "" + param + "=" + value;
-        return baseURL + "?" + newAdditionalURL + rows_txt;
+        const rows_txt = temp + "" + param + "=" + value
+        return baseURL + "?" + newAdditionalURL + rows_txt
     }
 }

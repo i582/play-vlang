@@ -38,7 +38,7 @@ var CodeRunner = /** @class */ (function () {
         data.append("code", code);
         return fetch("/format", {
             method: "post",
-            body: data
+            body: data,
         })
             .then(function (resp) { return resp.json(); })
             .then(function (data) { return JSON.parse(data); });
@@ -48,7 +48,7 @@ var CodeRunner = /** @class */ (function () {
         data.append("code", code);
         return fetch("/share", {
             method: "post",
-            body: data
+            body: data,
         })
             .then(function (resp) {
             if (resp.status != 200) {
@@ -64,12 +64,12 @@ var Editor = /** @class */ (function () {
     function Editor(wrapper, repository) {
         var _this = this;
         var editorConfig = {
-            mode: 'v',
+            mode: "v",
             lineNumbers: true,
             matchBrackets: true,
             extraKeys: {
-                'Ctrl-Space': 'autocomplete',
-                'Ctrl-/': 'toggleComment'
+                "Ctrl-Space": "autocomplete",
+                "Ctrl-/": "toggleComment",
             },
             indentWithTabs: false,
             indentUnit: 4,
@@ -82,9 +82,9 @@ var Editor = /** @class */ (function () {
             },
             toggleLineComment: {
                 indent: true,
-                padding: " "
+                padding: " ",
             },
-            theme: 'dark',
+            theme: "dark",
         };
         this.wrapperElement = wrapper;
         var place = wrapper.querySelector("textarea");
@@ -93,9 +93,9 @@ var Editor = /** @class */ (function () {
         this.repository.getCode(function (code) {
             _this.setCode(code);
         });
-        var terminalElement = wrapper.querySelector('.js-terminal');
+        var terminalElement = wrapper.querySelector(".js-terminal");
         if (terminalElement === null || terminalElement === undefined) {
-            throw new Error('Terminal not found, please check that terminal inside editor element');
+            throw new Error("Terminal not found, please check that terminal inside editor element");
         }
         this.terminal = new Terminal(terminalElement);
         this.terminal.registerCloseHandler(function () {
@@ -116,7 +116,7 @@ var Editor = /** @class */ (function () {
     };
     Editor.prototype.changeEditorFontSize = function (delta) {
         var cm = document.getElementsByClassName("CodeMirror")[0];
-        var fontSize = window.getComputedStyle(cm, null).getPropertyValue('font-size');
+        var fontSize = window.getComputedStyle(cm, null).getPropertyValue("font-size");
         if (fontSize) {
             var newFontSize = parseInt(fontSize) + delta;
             cm.style.fontSize = newFontSize + "px";
@@ -145,24 +145,24 @@ var Editor = /** @class */ (function () {
         this.repository.saveCode(this.getCode());
     };
     Editor.prototype.openTerminal = function () {
-        this.wrapperElement.classList.remove('closed-terminal');
+        this.wrapperElement.classList.remove("closed-terminal");
     };
     Editor.prototype.closeTerminal = function () {
-        this.wrapperElement.classList.add('closed-terminal');
+        this.wrapperElement.classList.add("closed-terminal");
     };
     Editor.prototype.setTheme = function (theme) {
-        this.editor.setOption('theme', theme.name());
+        this.editor.setOption("theme", theme.name());
     };
     Editor.prototype.refresh = function () {
         this.editor.refresh();
     };
-    Editor.FONT_LOCAL_STORAGE_KEY = 'editor-font-size';
+    Editor.FONT_LOCAL_STORAGE_KEY = "editor-font-size";
     return Editor;
 }());
 var ExamplesManager = /** @class */ (function () {
     function ExamplesManager() {
         this.onSelectHandler = null;
-        this.selectElement = document.querySelector('.js-examples__select');
+        this.selectElement = document.querySelector(".js-examples__select");
     }
     ExamplesManager.prototype.registerOnSelectHandler = function (handler) {
         this.onSelectHandler = handler;
@@ -172,17 +172,17 @@ var ExamplesManager = /** @class */ (function () {
         if (this.selectElement === null || this.selectElement === undefined) {
             return;
         }
-        var examplesSelectList = this.selectElement.querySelector('.select-box__list');
-        var examplesSelectBox = this.selectElement.querySelector('.select-box__current');
+        var examplesSelectList = this.selectElement.querySelector(".select-box__list");
+        var examplesSelectBox = this.selectElement.querySelector(".select-box__current");
         if (examplesSelectList !== null) {
             examples.forEach(function (example, index) {
                 examplesSelectList.innerHTML += ExamplesManager.exampleElementListTemplate(example.name, index);
                 examplesSelectBox.innerHTML += ExamplesManager.exampleElementTemplate(example.name, index);
             });
         }
-        var selectOptions = this.selectElement.querySelectorAll('.select-box__option');
+        var selectOptions = this.selectElement.querySelectorAll(".select-box__option");
         selectOptions.forEach(function (option) {
-            option.addEventListener('click', function () {
+            option.addEventListener("click", function () {
                 var exampleName = option.innerText;
                 var example = examples.find(function (example) {
                     return example.name === exampleName;
@@ -196,7 +196,7 @@ var ExamplesManager = /** @class */ (function () {
     ExamplesManager.exampleElementTemplate = function (name, index) {
         var checked = "";
         if (index === 0) {
-            checked = 'checked="checked"';
+            checked = "checked=\"checked\"";
         }
         return "\n<div class=\"select-box__value\">\n    <input class=\"select-box__input\" type=\"radio\" id=\"__select-id-".concat(index, "\" value=\"1\" name=\"Some\" ").concat(checked, "/>\n    <p class=\"select-box__input-text\">").concat(name, "</p>\n</div>\n");
     };
@@ -208,28 +208,28 @@ var ExamplesManager = /** @class */ (function () {
 var examples = [
     {
         name: "Hello, World!",
-        code: "\nprintln('Hello, world!')\n"
+        code: "\nprintln('Hello, world!')\n",
     },
     {
         name: "Fibonacci",
-        code: "\nfn fib(n int) int {\n    mut f := []int{len: n + 2}\n    f[0] = 0\n    f[1] = 1\n    for i := 2; i <= n; i++ {\n        f[i] = f[i - 1] + f[i - 2]\n    }\n    return f[n]\n}\n\nfor i in 0 .. 30 {\n    println(fib(i))\n}\n"
+        code: "\nfn fib(n int) int {\n    mut f := []int{len: n + 2}\n    f[0] = 0\n    f[1] = 1\n    for i := 2; i <= n; i++ {\n        f[i] = f[i - 1] + f[i - 2]\n    }\n    return f[n]\n}\n\nfor i in 0 .. 30 {\n    println(fib(i))\n}\n",
     },
     {
         name: "String interpolation",
-        code: "\nareas := ['game', 'web', 'tools', 'science', 'systems', 'embedded', 'drivers', 'GUI', 'mobile']\nfor area in areas {\n    println('Hello, $area developers!')\n}\n"
+        code: "\nareas := ['game', 'web', 'tools', 'science', 'systems', 'embedded', 'drivers', 'GUI', 'mobile']\nfor area in areas {\n    println('Hello, $area developers!')\n}\n",
     },
     {
         name: "JSON Encoding/Decoding",
-        code: "\nimport json\n\nstruct User {\n    name string\n    age  int\nmut:\n    is_registered bool\n}\n\nfn main() {\n    s := '[{\"name\":\"Frodo\", \"age\":25}, {\"name\":\"Bobby\", \"age\":10}]'\n    mut users := json.decode([]User, s) or {\n        eprintln('Failed to parse json')\n        return\n    }\n    for user in users {\n        println('$user.name: $user.age')\n    }\n    println('')\n    for i, mut user in users {\n        println('$i) $user.name')\n        if !user.can_register() {\n            println('Cannot register $user.name, they are too young')\n            continue\n        }\n\n        // `user` is declared as `mut` in the for loop,\n        // modifying it will modify the array\n        user.register()\n    }\n\n    // Let's encode users again just for fun\n    println('')\n    println(json.encode(users))\n}\n\nfn (u User) can_register() bool {\n    return u.age >= 16\n}\n\nfn (mut u User) register() {\n    u.is_registered = true\n}\n"
+        code: "\nimport json\n\nstruct User {\n    name string\n    age  int\nmut:\n    is_registered bool\n}\n\nfn main() {\n    s := '[{\"name\":\"Frodo\", \"age\":25}, {\"name\":\"Bobby\", \"age\":10}]'\n    mut users := json.decode([]User, s) or {\n        eprintln('Failed to parse json')\n        return\n    }\n    for user in users {\n        println('$user.name: $user.age')\n    }\n    println('')\n    for i, mut user in users {\n        println('$i) $user.name')\n        if !user.can_register() {\n            println('Cannot register $user.name, they are too young')\n            continue\n        }\n\n        // `user` is declared as `mut` in the for loop,\n        // modifying it will modify the array\n        user.register()\n    }\n\n    // Let's encode users again just for fun\n    println('')\n    println(json.encode(users))\n}\n\nfn (u User) can_register() bool {\n    return u.age >= 16\n}\n\nfn (mut u User) register() {\n    u.is_registered = true\n}\n",
     },
     {
         name: "Filter Log file",
-        code: "\n// Print file lines that start with \"DEBUG:\"\nimport os\n\n// `write_file` returns a result (`!`), it must be checked\nos.write_file('app.log', '\nERROR: log file not found\nDEBUG: create new file\nDEBUG: write text to log file\nERROR: file not writeble\n') or {\n    // `err` is a special variable that contains the error\n    // in `or {}` blocks\n    eprintln('failed to write the file: $err')\n    return\n}\n\n// `read_file` returns a result (`!string`), it must be checked\ntext := os.read_file('app.log') or {\n    eprintln('failed to read the file: $err')\n    return\n}\n\nlines := text.split_into_lines()\nfor line in lines {\n    if line.starts_with('DEBUG:') {\n        println(line)\n    }\n}\n\n// DEBUG: create new file\n// DEBUG: write text to log file\n"
+        code: "\n// Print file lines that start with \"DEBUG:\"\nimport os\n\n// `write_file` returns a result (`!`), it must be checked\nos.write_file('app.log', '\nERROR: log file not found\nDEBUG: create new file\nDEBUG: write text to log file\nERROR: file not writeble\n') or {\n    // `err` is a special variable that contains the error\n    // in `or {}` blocks\n    eprintln('failed to write the file: $err')\n    return\n}\n\n// `read_file` returns a result (`!string`), it must be checked\ntext := os.read_file('app.log') or {\n    eprintln('failed to read the file: $err')\n    return\n}\n\nlines := text.split_into_lines()\nfor line in lines {\n    if line.starts_with('DEBUG:') {\n        println(line)\n    }\n}\n\n// DEBUG: create new file\n// DEBUG: write text to log file\n",
     },
     {
         name: "Compiletime Reflection",
-        code: "\nstruct User {\n    name string\n    age  int\n}\n\nfn main() {\n    data := 'name=Alice\\nage=18'\n    user := decode&lt;User>(data)\n    println(user)\n}\n\nfn decode&lt;T>(data string) T {\n    mut result := T{}\n    // compile-time `for` loop\n    // T.fields gives an array of a field metadata type\n    $for field in T.fields {\n        $if field.typ is string {\n            // $(string_expr) produces an identifier\n            result.$(field.name) = get_string(data, field.name)\n        } $else $if field.typ is int {\n            result.$(field.name) = get_int(data, field.name)\n        }\n    }\n    return result\n}\n\nfn get_string(data string, field_name string) string {\n    for line in data.split_into_lines() {\n        key_val := line.split('=')\n        if key_val[0] == field_name {\n            return key_val[1]\n        }\n    }\n    return ''\n}\n\nfn get_int(data string, field string) int {\n    return get_string(data, field).int()\n}\n\n// `decode&lt;User>` generates:\n// fn decode_User(data string) User {\n//     mut result := User{}\n//     result.name = get_string(data, 'name')\n//     result.age = get_int(data, 'age')\n//     return result\n// }\n"
-    }
+        code: "\nstruct User {\n    name string\n    age  int\n}\n\nfn main() {\n    data := 'name=Alice\\nage=18'\n    user := decode&lt;User>(data)\n    println(user)\n}\n\nfn decode&lt;T>(data string) T {\n    mut result := T{}\n    // compile-time `for` loop\n    // T.fields gives an array of a field metadata type\n    $for field in T.fields {\n        $if field.typ is string {\n            // $(string_expr) produces an identifier\n            result.$(field.name) = get_string(data, field.name)\n        } $else $if field.typ is int {\n            result.$(field.name) = get_int(data, field.name)\n        }\n    }\n    return result\n}\n\nfn get_string(data string, field_name string) string {\n    for line in data.split_into_lines() {\n        key_val := line.split('=')\n        if key_val[0] == field_name {\n            return key_val[1]\n        }\n    }\n    return ''\n}\n\nfn get_int(data string, field string) int {\n    return get_string(data, field).int()\n}\n\n// `decode&lt;User>` generates:\n// fn decode_User(data string) User {\n//     mut result := User{}\n//     result.name = get_string(data, 'name')\n//     result.age = get_int(data, 'age')\n//     return result\n// }\n",
+    },
 ].map(function (example) {
     example.code = example.code
         .replaceAll("    ", "    ")
@@ -309,7 +309,7 @@ var SharedCodeRepository = /** @class */ (function () {
         data.append("hash", this.hash);
         fetch("/query", {
             method: "post",
-            body: data
+            body: data,
         })
             .then(function (resp) { return resp.text(); })
             .then(function (data) {
@@ -355,14 +355,14 @@ var Terminal = /** @class */ (function () {
         this.getTerminalOutputElement().innerHTML = "";
     };
     Terminal.prototype.mount = function () {
-        var closeButton = this.element.querySelector('.js-terminal__close-buttom');
+        var closeButton = this.element.querySelector(".js-terminal__close-buttom");
         if (closeButton === null || closeButton === undefined || this.onClose === null) {
             return;
         }
-        closeButton.addEventListener('click', this.onClose);
+        closeButton.addEventListener("click", this.onClose);
     };
     Terminal.prototype.getTerminalOutputElement = function () {
-        return this.element.querySelector('.js-terminal__output');
+        return this.element.querySelector(".js-terminal__output");
     };
     return Terminal;
 }());
@@ -385,29 +385,29 @@ var Light = /** @class */ (function () {
 var HelpManager = /** @class */ (function () {
     function HelpManager(containingElement) {
         this.containingElement = containingElement;
-        this.element = containingElement.getElementsByClassName('js-help-wrapper')[0];
+        this.element = containingElement.getElementsByClassName("js-help-wrapper")[0];
         if (this.element === null || this.element === undefined) {
             return;
         }
-        this.helpOverlay = this.element.getElementsByClassName('js-help-overlay')[0];
-        this.showHelpButton = this.element.getElementsByClassName('js-show-help')[0];
-        this.closeHelpButton = this.element.getElementsByClassName('js-close-help')[0];
+        this.helpOverlay = this.element.getElementsByClassName("js-help-overlay")[0];
+        this.showHelpButton = this.element.getElementsByClassName("js-show-help")[0];
+        this.closeHelpButton = this.element.getElementsByClassName("js-close-help")[0];
         this.mount();
     }
     HelpManager.prototype.mount = function () {
         var _this = this;
         if (this.showHelpButton !== undefined) {
-            this.showHelpButton.addEventListener('click', function () {
+            this.showHelpButton.addEventListener("click", function () {
                 _this.toggleHelp();
             });
         }
         if (this.helpOverlay !== undefined) {
-            this.helpOverlay.addEventListener('click', function () {
+            this.helpOverlay.addEventListener("click", function () {
                 _this.toggleHelp();
             });
         }
         if (this.closeHelpButton !== undefined) {
-            this.closeHelpButton.addEventListener('click', function () {
+            this.closeHelpButton.addEventListener("click", function () {
                 _this.toggleHelp();
             });
         }
@@ -415,24 +415,24 @@ var HelpManager = /** @class */ (function () {
         //  - macOS: ⌃
         //  - Windows/Linux: Ctrl
         if (!HelpManager.isMac) {
-            var shortcuts = document.querySelectorAll('.js-shortcut kbd.ctrl');
+            var shortcuts = document.querySelectorAll(".js-shortcut kbd.ctrl");
             shortcuts.forEach(function (shortcut) {
-                shortcut.innerText = 'Ctrl';
+                shortcut.innerText = "Ctrl";
             });
         }
     };
     HelpManager.prototype.closeHelp = function () {
-        if (!this.helpOverlay.classList.contains('opened')) {
+        if (!this.helpOverlay.classList.contains("opened")) {
             return;
         }
         this.toggleHelp();
     };
     HelpManager.prototype.toggleHelp = function () {
-        var help = this.containingElement.getElementsByClassName('js-help')[0];
-        help.classList.toggle('opened');
-        this.helpOverlay.classList.toggle('opened');
+        var help = this.containingElement.getElementsByClassName("js-help")[0];
+        help.classList.toggle("opened");
+        this.helpOverlay.classList.toggle("opened");
     };
-    HelpManager.isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    HelpManager.isMac = navigator.platform.toUpperCase().indexOf("MAC") >= 0;
     return HelpManager;
 }());
 var PlaygroundDefaultAction;
@@ -465,7 +465,7 @@ var Playground = /** @class */ (function () {
         if (actionButton === undefined) {
             throw new Error("Can't find action button with class js-playground__action-".concat(name));
         }
-        actionButton.addEventListener('click', callback);
+        actionButton.addEventListener("click", callback);
     };
     Playground.prototype.runCode = function () {
         var _this = this;
@@ -588,7 +588,7 @@ var QueryParams = /** @class */ (function () {
      */
     QueryParams.prototype.updateURLParameter = function (param, value) {
         var url = QueryParams.updateURLParameter(window.location.href, param, value);
-        window.history.replaceState({}, '', url);
+        window.history.replaceState({}, "", url);
     };
     QueryParams.updateURLParameter = function (url, param, value) {
         var newAdditionalURL = "";
@@ -599,7 +599,7 @@ var QueryParams = /** @class */ (function () {
         if (additionalURL) {
             tempArray = additionalURL.split("&");
             for (var i = 0; i < tempArray.length; i++) {
-                if (tempArray[i].split('=')[0] !== param) {
+                if (tempArray[i].split("=")[0] !== param) {
                     newAdditionalURL += temp + tempArray[i];
                     temp = "&";
                 }
@@ -622,25 +622,26 @@ function fallbackCopyTextToClipboard(text) {
     textArea.select();
     try {
         // noinspection JSDeprecatedSymbols
-        var successful = document.execCommand('copy');
-        var msg = successful ? 'successful' : 'unsuccessful';
-        console.log('Fallback: Copying text command was ' + msg);
+        var successful = document.execCommand("copy");
+        var msg = successful ? "successful" : "unsuccessful";
+        console.log("Fallback: Copying text command was " + msg);
     }
     catch (err) {
-        console.log('Fallback: Oops, unable to copy', err);
+        console.log("Fallback: Oops, unable to copy", err);
     }
     document.body.removeChild(textArea);
 }
-function copyTextToClipboard(text) {
+function copyTextToClipboard(text, onCopy) {
     if (!navigator.clipboard) {
         fallbackCopyTextToClipboard(text);
         return;
     }
     navigator.clipboard.writeText(text).then(function () {
-        console.log('Async: Copying to clipboard was successful!');
+        console.log("Async: Copying to clipboard was successful!");
+        onCopy();
     }, function (err) {
         fallbackCopyTextToClipboard(text);
-        console.log('Async: Could not copy text: ', err, 'fallback to old method');
+        console.log("Async: Could not copy text: ", err, "fallback to old method");
     });
 }
 var EmbedPlayground = /** @class */ (function () {
@@ -651,7 +652,7 @@ var EmbedPlayground = /** @class */ (function () {
     EmbedPlayground.prototype.mount = function () {
         this.element.innerHTML = embedTemplate();
         this.config.embed = true;
-        var editorElement = this.element.querySelector('.js-playground');
+        var editorElement = this.element.querySelector(".js-playground");
         var playground = new Playground(editorElement);
         playground.registerAction(PlaygroundDefaultAction.RUN, function () {
             playground.runCode();
@@ -687,7 +688,7 @@ var ThemeManager = /** @class */ (function () {
         this.fromQueryParam = false;
         this.queryParams = queryParams;
         this.predefinedTheme = predefinedTheme;
-        this.changeThemeButton = document.querySelector('.js-playground__action-change-theme');
+        this.changeThemeButton = document.querySelector(".js-playground__action-change-theme");
     }
     ThemeManager.prototype.registerOnChange = function (callback) {
         this.onChange.push(callback);
@@ -725,14 +726,14 @@ var ThemeManager = /** @class */ (function () {
         this.currentTheme = theme;
         this.onChange.forEach(function (callback) { return callback(theme); });
         var icon = moonIcon;
-        if (theme.name() === 'dark') {
+        if (theme.name() === "dark") {
             icon = sunIcon;
         }
         if (this.changeThemeButton !== null) {
             this.changeThemeButton.innerHTML = icon;
         }
         var html = document.querySelector("html");
-        html.setAttribute('data-theme', theme.name());
+        html.setAttribute("data-theme", theme.name());
         if (!this.fromQueryParam) {
             // Don't update saved theme state if we're loading from query param.
             window.localStorage.setItem(ThemeManager.LOCAL_STORAGE_KEY, theme.name());
@@ -754,7 +755,7 @@ var ThemeManager = /** @class */ (function () {
         this.turnTheme(new Light());
     };
     ThemeManager.prototype.toggleTheme = function () {
-        if (this.currentTheme.name() === 'light') {
+        if (this.currentTheme.name() === "light") {
             this.turnDarkTheme();
         }
         else {

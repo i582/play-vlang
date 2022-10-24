@@ -1,4 +1,3 @@
-
 /**
  * Shared code repository using the server side SQL storage.
  */
@@ -25,14 +24,14 @@ class SharedCodeRepository implements CodeRepository {
 
         fetch("/query", {
             method: "post",
-            body: data
+            body: data,
         })
             .then(resp => resp.text())
             .then(data => {
                 onReady(data)
             })
             .catch(err => {
-                console.log(err);
+                console.log(err)
             })
     }
 }

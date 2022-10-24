@@ -15,11 +15,11 @@ class CodeRepositoryManager {
             return new SharedCodeRepository(config.codeHash)
         }
 
-        if (config !== undefined &&config.code !== null && config.code !== undefined) {
+        if (config !== undefined && config.code !== null && config.code !== undefined) {
             return new TextCodeRepository(config.code)
         }
 
-        if (config !== undefined &&config.embed !== null && config.embed !== undefined && config.embed) {
+        if (config !== undefined && config.embed !== null && config.embed !== undefined && config.embed) {
             // By default editor is empty for embed mode.
             return new TextCodeRepository("")
         }

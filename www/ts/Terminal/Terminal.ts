@@ -16,27 +16,27 @@ class Terminal {
     }
 
     public write(text: string) {
-        this.getTerminalOutputElement().innerHTML += text + "\n";
+        this.getTerminalOutputElement().innerHTML += text + "\n"
 
         if (this.onWrite !== null) {
-            this.onWrite(text);
+            this.onWrite(text)
         }
     }
 
     public clear() {
-        this.getTerminalOutputElement().innerHTML = "";
+        this.getTerminalOutputElement().innerHTML = ""
     }
 
     public mount() {
-        const closeButton = this.element.querySelector('.js-terminal__close-buttom') as HTMLElement
+        const closeButton = this.element.querySelector(".js-terminal__close-buttom") as HTMLElement
         if (closeButton === null || closeButton === undefined || this.onClose === null) {
-            return;
+            return
         }
 
-        closeButton.addEventListener('click', this.onClose);
+        closeButton.addEventListener("click", this.onClose)
     }
 
     private getTerminalOutputElement(): HTMLElement {
-        return this.element.querySelector('.js-terminal__output') as HTMLElement
+        return this.element.querySelector(".js-terminal__output") as HTMLElement
     }
 }

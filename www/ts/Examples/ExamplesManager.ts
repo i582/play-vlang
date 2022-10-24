@@ -3,7 +3,7 @@ class ExamplesManager {
     private onSelectHandler: (example: IExample) => void = null
 
     constructor() {
-        this.selectElement = document.querySelector('.js-examples__select') as HTMLElement
+        this.selectElement = document.querySelector(".js-examples__select") as HTMLElement
     }
 
     public registerOnSelectHandler(handler: (example: IExample) => void) {
@@ -15,8 +15,8 @@ class ExamplesManager {
             return
         }
 
-        const examplesSelectList = this.selectElement.querySelector('.select-box__list');
-        const examplesSelectBox = this.selectElement.querySelector('.select-box__current');
+        const examplesSelectList = this.selectElement.querySelector(".select-box__list")
+        const examplesSelectBox = this.selectElement.querySelector(".select-box__current")
 
         if (examplesSelectList !== null) {
             examples.forEach(function (example: IExample, index: number) {
@@ -25,11 +25,11 @@ class ExamplesManager {
             })
         }
 
-        const selectOptions = this.selectElement.querySelectorAll('.select-box__option');
-        selectOptions.forEach( (option: HTMLElement) => {
-            option.addEventListener('click',  () => {
+        const selectOptions = this.selectElement.querySelectorAll(".select-box__option")
+        selectOptions.forEach((option: HTMLElement) => {
+            option.addEventListener("click", () => {
                 const exampleName = option.innerText
-                const example = examples.find( (example) => {
+                const example = examples.find((example) => {
                     return example.name === exampleName
                 })
 
@@ -41,9 +41,9 @@ class ExamplesManager {
     }
 
     static exampleElementTemplate = function (name, index) {
-        let checked = "";
+        let checked = ""
         if (index === 0) {
-            checked = 'checked="checked"'
+            checked = "checked=\"checked\""
         }
         return `
 <div class="select-box__value">

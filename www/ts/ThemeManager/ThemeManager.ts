@@ -33,7 +33,7 @@ class ThemeManager {
     constructor(queryParams: QueryParams, predefinedTheme?: ITheme) {
         this.queryParams = queryParams
         this.predefinedTheme = predefinedTheme
-        this.changeThemeButton = document.querySelector('.js-playground__action-change-theme')
+        this.changeThemeButton = document.querySelector(".js-playground__action-change-theme")
     }
 
     public registerOnChange(callback: ThemeCallback): void {
@@ -66,20 +66,20 @@ class ThemeManager {
     }
 
     private findTheme(themeFromLocalStorage: string) {
-        let foundThemes = this.themes.filter(theme => theme.name() === themeFromLocalStorage);
+        let foundThemes = this.themes.filter(theme => theme.name() === themeFromLocalStorage)
         let theme = foundThemes[0]
         if (foundThemes.length == 0) {
             theme = new Dark()
         }
-        return theme;
+        return theme
     }
 
     private turnTheme(theme: ITheme): void {
         this.currentTheme = theme
         this.onChange.forEach(callback => callback(theme))
 
-        let icon = moonIcon;
-        if (theme.name() === 'dark') {
+        let icon = moonIcon
+        if (theme.name() === "dark") {
             icon = sunIcon
         }
 
@@ -87,12 +87,12 @@ class ThemeManager {
             this.changeThemeButton.innerHTML = icon
         }
 
-        const html = document.querySelector("html");
-        html.setAttribute('data-theme', theme.name())
+        const html = document.querySelector("html")
+        html.setAttribute("data-theme", theme.name())
 
         if (!this.fromQueryParam) {
             // Don't update saved theme state if we're loading from query param.
-            window.localStorage.setItem(ThemeManager.LOCAL_STORAGE_KEY, theme.name());
+            window.localStorage.setItem(ThemeManager.LOCAL_STORAGE_KEY, theme.name())
         }
 
         if (this.fromQueryParam) {
@@ -115,10 +115,10 @@ class ThemeManager {
     }
 
     public toggleTheme(): void {
-        if (this.currentTheme.name() === 'light') {
-            this.turnDarkTheme();
+        if (this.currentTheme.name() === "light") {
+            this.turnDarkTheme()
         } else {
-            this.turnLightTheme();
+            this.turnLightTheme()
         }
     }
 }

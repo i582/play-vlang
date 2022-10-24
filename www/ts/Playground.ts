@@ -1,8 +1,8 @@
 enum PlaygroundDefaultAction {
-    RUN = 'run',
-    FORMAT = 'format',
-    SHARE = 'share',
-    CHANGE_THEME = 'change-theme',
+    RUN = "run",
+    FORMAT = "format",
+    SHARE = "share",
+    CHANGE_THEME = "change-theme",
 }
 
 class Playground {
@@ -34,39 +34,39 @@ class Playground {
     }
 
     public registerAction(name: PlaygroundDefaultAction | string, callback: () => void): void {
-        const actionButton = document.getElementsByClassName(`js-playground__action-${name}`)[0];
+        const actionButton = document.getElementsByClassName(`js-playground__action-${name}`)[0]
         if (actionButton === undefined) {
             throw new Error(`Can't find action button with class js-playground__action-${name}`)
         }
 
-        actionButton.addEventListener('click', callback);
+        actionButton.addEventListener("click", callback)
     }
 
     public runCode(): void {
-        this.clearTerminal();
+        this.clearTerminal()
         this.writeToTerminal("Running code...")
 
         const code = this.editor.getCode()
         CodeRunner.runCode(code)
             .then(result => {
-                this.clearTerminal();
+                this.clearTerminal()
                 this.writeToTerminal(result.output)
             })
             .catch(err => {
-                console.log(err);
+                console.log(err)
                 this.writeToTerminal("Can't run code. Please try again.")
             })
     }
 
     public formatCode(): void {
-        this.clearTerminal();
+        this.clearTerminal()
         this.writeToTerminal("Formatting code...")
 
         const code = this.editor.getCode()
         CodeRunner.formatCode(code)
             .then(result => {
                 if (!result.ok) {
-                    this.clearTerminal();
+                    this.clearTerminal()
                     this.writeToTerminal(result.output)
                     return
                 }
@@ -75,13 +75,13 @@ class Playground {
                 this.writeToTerminal("Code formatted successfully!")
             })
             .catch(err => {
-                console.log(err);
+                console.log(err)
                 this.writeToTerminal("Can't format code. Please try again.")
             })
     }
 
     public shareCode(): void {
-        this.clearTerminal();
+        this.clearTerminal()
 
         const code = this.editor.getCode()
         CodeRunner.shareCode(code)
@@ -99,7 +99,7 @@ class Playground {
                 this.writeToTerminal("Note: current page has changed its own URL, it now equals the share link shown above.")
             })
             .catch(err => {
-                console.log(err);
+                console.log(err)
                 this.writeToTerminal("Can't share code. Please try again.")
             })
     }
@@ -114,32 +114,32 @@ class Playground {
 
             if (ev.ctrlKey && (ev.key === "Enter" || ev.key === "r")) {
                 this.runCode()
-                ev.preventDefault();
+                ev.preventDefault()
             }
             if (ev.ctrlKey && ev.key === "l") {
                 this.formatCode()
-                ev.preventDefault();
+                ev.preventDefault()
             }
             if (ev.ctrlKey && ev.key === "=") {
-                this.editor.changeEditorFontSize(1);
-                ev.preventDefault();
+                this.editor.changeEditorFontSize(1)
+                ev.preventDefault()
             }
             if (ev.ctrlKey && ev.key === "-") {
-                this.editor.changeEditorFontSize(-1);
-                ev.preventDefault();
+                this.editor.changeEditorFontSize(-1)
+                ev.preventDefault()
             }
             if (ev.ctrlKey && ev.key === "h") {
                 this.helpManager.toggleHelp()
-                ev.preventDefault();
+                ev.preventDefault()
             }
             if ((ev.ctrlKey || ev.metaKey) && ev.key === "s") {
                 this.repository.saveCode(this.editor.getCode())
-                ev.preventDefault();
+                ev.preventDefault()
             }
 
             if (ev.key === "Escape") {
                 this.helpManager.closeHelp()
-                ev.preventDefault();
+                ev.preventDefault()
             }
         })
     }

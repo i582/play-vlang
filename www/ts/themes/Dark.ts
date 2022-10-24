@@ -1,6 +1,5 @@
-
 class Dark implements ITheme {
     name(): string {
-        return "dark";
+        return "dark"
     }
 }

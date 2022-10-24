@@ -1,5 +1,5 @@
 class Editor {
-    private static readonly FONT_LOCAL_STORAGE_KEY = 'editor-font-size';
+    private static readonly FONT_LOCAL_STORAGE_KEY = "editor-font-size"
 
     private wrapperElement: HTMLElement
     private repository: CodeRepository
@@ -8,12 +8,12 @@ class Editor {
 
     constructor(wrapper: HTMLElement, repository: CodeRepository) {
         const editorConfig = {
-            mode: 'v',
+            mode: "v",
             lineNumbers: true,
             matchBrackets: true,
             extraKeys: {
-                'Ctrl-Space': 'autocomplete',
-                'Ctrl-/': 'toggleComment'
+                "Ctrl-Space": "autocomplete",
+                "Ctrl-/": "toggleComment",
             },
             indentWithTabs: false,
             indentUnit: 4,
@@ -26,9 +26,9 @@ class Editor {
             },
             toggleLineComment: {
                 indent: true,
-                padding: " "
+                padding: " ",
             },
-            theme: 'dark',
+            theme: "dark",
         }
 
         this.wrapperElement = wrapper
@@ -38,11 +38,11 @@ class Editor {
         this.repository = repository
         this.repository.getCode((code) => {
             this.setCode(code)
-        });
+        })
 
-        const terminalElement = wrapper.querySelector('.js-terminal') as HTMLElement
+        const terminalElement = wrapper.querySelector(".js-terminal") as HTMLElement
         if (terminalElement === null || terminalElement === undefined) {
-            throw new Error('Terminal not found, please check that terminal inside editor element')
+            throw new Error("Terminal not found, please check that terminal inside editor element")
         }
         this.terminal = new Terminal(terminalElement)
         this.terminal.registerCloseHandler(() => {
@@ -54,29 +54,29 @@ class Editor {
         })
         this.terminal.mount()
 
-        this.initFont();
+        this.initFont()
     }
 
     private initFont() {
-        const fontSize = window.localStorage.getItem(Editor.FONT_LOCAL_STORAGE_KEY);
+        const fontSize = window.localStorage.getItem(Editor.FONT_LOCAL_STORAGE_KEY)
         if (fontSize !== null) {
             this.setEditorFontSize(fontSize)
         }
     }
 
     changeEditorFontSize(delta: number) {
-        const cm = document.getElementsByClassName("CodeMirror")[0] as HTMLElement;
-        const fontSize = window.getComputedStyle(cm, null).getPropertyValue('font-size');
+        const cm = document.getElementsByClassName("CodeMirror")[0] as HTMLElement
+        const fontSize = window.getComputedStyle(cm, null).getPropertyValue("font-size")
         if (fontSize) {
             const newFontSize = parseInt(fontSize) + delta
             cm.style.fontSize = newFontSize + "px"
-            window.localStorage.setItem(Editor.FONT_LOCAL_STORAGE_KEY, newFontSize.toString());
+            window.localStorage.setItem(Editor.FONT_LOCAL_STORAGE_KEY, newFontSize.toString())
             this.editor.refresh()
         }
     }
 
     private setEditorFontSize(size: string) {
-        const cm = document.getElementsByClassName("CodeMirror")[0] as HTMLElement;
+        const cm = document.getElementsByClassName("CodeMirror")[0] as HTMLElement
         cm.style.fontSize = size + "px"
         this.refresh()
     }
@@ -100,15 +100,15 @@ class Editor {
     }
 
     public openTerminal() {
-        this.wrapperElement.classList.remove('closed-terminal')
+        this.wrapperElement.classList.remove("closed-terminal")
     }
 
     public closeTerminal() {
-        this.wrapperElement.classList.add('closed-terminal')
+        this.wrapperElement.classList.add("closed-terminal")
     }
 
     public setTheme(theme: ITheme) {
-        this.editor.setOption('theme', theme.name())
+        this.editor.setOption("theme", theme.name())
     }
 
     public refresh() {

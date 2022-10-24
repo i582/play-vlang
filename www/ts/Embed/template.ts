@@ -1,4 +1,4 @@
-const embedTemplate = () =>  `
+const embedTemplate = () => `
 <div class="js-playground v-playground">
     <div class="playground__editor">
         <textarea></textarea>

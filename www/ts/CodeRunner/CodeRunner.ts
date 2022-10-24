@@ -38,7 +38,7 @@ class CodeRunner {
 
         return fetch("/format", {
             method: "post",
-            body: data
+            body: data,
         })
             .then(resp => resp.json())
             .then(data => JSON.parse(data) as FormatCodeResult)
@@ -50,7 +50,7 @@ class CodeRunner {
 
         return fetch("/share", {
             method: "post",
-            body: data
+            body: data,
         })
             .then(resp => {
                 if (resp.status != 200) {
