@@ -169,6 +169,9 @@ var ExamplesManager = /** @class */ (function () {
     };
     ExamplesManager.prototype.mount = function () {
         var _this = this;
+        if (this.selectElement === null || this.selectElement === undefined) {
+            return;
+        }
         var examplesSelectList = this.selectElement.querySelector('.select-box__list');
         var examplesSelectBox = this.selectElement.querySelector('.select-box__current');
         if (examplesSelectList !== null) {
@@ -244,9 +247,20 @@ var CodeRepositoryManager = /** @class */ (function () {
      * Base on `params` tries to select the appropriate repository to get the code.
      *
      * @param params The query parameters.
+     * @param config The playground configuration.
      * @returns {CodeRepository}
      */
-    CodeRepositoryManager.selectRepository = function (params) {
+    CodeRepositoryManager.selectRepository = function (params, config) {
+        if (config.codeHash !== null && config.codeHash !== undefined) {
+            return new SharedCodeRepository(config.codeHash);
+        }
+        if (config.code !== null && config.code !== undefined) {
+            return new TextCodeRepository(config.code);
+        }
+        if (config.embed !== null && config.embed !== undefined && config.embed) {
+            // By default editor is empty for embed mode.
+            return new TextCodeRepository("");
+        }
         var repository = new LocalCodeRepository();
         var hash = params.params[SharedCodeRepository.QUERY_PARAM_NAME];
         if (hash !== null && hash !== undefined) {
@@ -308,6 +322,17 @@ var SharedCodeRepository = /** @class */ (function () {
     SharedCodeRepository.QUERY_PARAM_NAME = "query";
     return SharedCodeRepository;
 }());
+var TextCodeRepository = /** @class */ (function () {
+    function TextCodeRepository(text) {
+        this.text = text;
+    }
+    TextCodeRepository.prototype.saveCode = function (code) {
+    };
+    TextCodeRepository.prototype.getCode = function (onReady) {
+        onReady(this.text);
+    };
+    return TextCodeRepository;
+}());
 var Terminal = /** @class */ (function () {
     function Terminal(element) {
         this.onClose = null;
@@ -361,6 +386,9 @@ var HelpManager = /** @class */ (function () {
     function HelpManager(containingElement) {
         this.containingElement = containingElement;
         this.element = containingElement.getElementsByClassName('js-help-wrapper')[0];
+        if (this.element === null || this.element === undefined) {
+            return;
+        }
         this.helpOverlay = this.element.getElementsByClassName('js-help-overlay')[0];
         this.showHelpButton = this.element.getElementsByClassName('js-show-help')[0];
         this.closeHelpButton = this.element.getElementsByClassName('js-close-help')[0];
@@ -415,22 +443,24 @@ var PlaygroundDefaultAction;
     PlaygroundDefaultAction["CHANGE_THEME"] = "change-theme";
 })(PlaygroundDefaultAction || (PlaygroundDefaultAction = {}));
 var Playground = /** @class */ (function () {
-    function Playground(editorElement) {
+    function Playground(editorElement, config) {
         var _this = this;
         this.queryParams = new QueryParams(window.location.search);
-        this.repository = CodeRepositoryManager.selectRepository(this.queryParams);
+        this.repository = CodeRepositoryManager.selectRepository(this.queryParams, config);
         this.editor = new Editor(editorElement, this.repository);
-        this.themeManager = new ThemeManager(this.queryParams);
+        this.themeManager = new ThemeManager(this.queryParams, config.theme);
         this.themeManager.registerOnChange(function (theme) {
             _this.editor.setTheme(theme);
         });
         this.themeManager.loadTheme();
-        this.examplesManager = new ExamplesManager();
-        this.examplesManager.registerOnSelectHandler(function (example) {
-            _this.editor.setCode(example.code);
-        });
-        this.examplesManager.mount();
-        this.helpManager = new HelpManager(editorElement);
+        if (!config.embed) {
+            this.examplesManager = new ExamplesManager();
+            this.examplesManager.registerOnSelectHandler(function (example) {
+                _this.editor.setCode(example.code);
+            });
+            this.examplesManager.mount();
+            this.helpManager = new HelpManager(editorElement);
+        }
     }
     Playground.prototype.registerAction = function (name, callback) {
         var actionButton = document.getElementsByClassName("js-playground__action-".concat(name))[0];
@@ -614,6 +644,23 @@ function copyTextToClipboard(text) {
         console.error('Async: Could not copy text: ', err);
     });
 }
+var EmbedPlayground = /** @class */ (function () {
+    function EmbedPlayground(element, config) {
+        this.element = element;
+        this.config = config;
+    }
+    EmbedPlayground.prototype.mount = function () {
+        this.element.innerHTML = embedTemplate();
+        this.config.embed = true;
+        var editorElement = this.element.querySelector('.js-playground');
+        var playground = new Playground(editorElement, this.config);
+        playground.registerAction(PlaygroundDefaultAction.RUN, function () {
+            playground.runCode();
+        });
+    };
+    return EmbedPlayground;
+}());
+var embedTemplate = function () { return "\n<div class=\"js-playground v-playground\">\n    <div class=\"editor\">\n        <textarea></textarea>\n\n        <button class=\"js-playground__action-run run\">\n            <span class=\"icon\">\n                <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                    <g clip-path=\"url(#clip0_1_5)\">\n                        <path class=\"run-icon\" d=\"M14.4657 8.20966L2.4657 15.1379L2.4657 1.28145L14.4657 8.20966Z\"/>\n                    </g>\n                    <defs>\n                        <clipPath id=\"clip0_1_5\">\n                            <rect width=\"16\" height=\"16\" fill=\"white\"/>\n                        </clipPath>\n                    </defs>\n                </svg>\n            </span>\n        </button>\n\n        <div class=\"js-terminal terminal\">\n            <button class=\"js-terminal__close terminal__close-button\">\n                <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                    <rect class=\"close-terminal-button-rect\" x=\"1\" y=\"8\" width=\"13\" height=\"1\"/>\n                </svg>\n            </button>\n            <pre class=\"js-terminal__output terminal__output\"></pre>\n        </div>\n    </div>\n    \n    <a class=\"playground-link\" href=\"#\">Open in Playground \u2192</a>\n</div>\n"; };
 /**
  * ThemeManager is responsible for managing the theme of the playground.
  * It will register a callback to the change theme button and will update the
@@ -633,12 +680,14 @@ function copyTextToClipboard(text) {
  * })
  */
 var ThemeManager = /** @class */ (function () {
-    function ThemeManager(queryParams) {
+    function ThemeManager(queryParams, predefinedTheme) {
         this.themes = [new Dark(), new Light()];
         this.onChange = [];
         this.changeThemeButton = null;
         this.fromQueryParam = false;
+        this.predefinedTheme = null;
         this.queryParams = queryParams;
+        this.predefinedTheme = predefinedTheme;
         this.changeThemeButton = document.querySelector('.js-playground__action-change-theme');
     }
     ThemeManager.prototype.registerOnChange = function (callback) {
@@ -656,6 +705,9 @@ var ThemeManager = /** @class */ (function () {
         if (themeFromLocalStorage !== null && themeFromLocalStorage !== undefined) {
             var theme = this.findTheme(themeFromLocalStorage);
             this.turnTheme(theme);
+        }
+        if (this.predefinedTheme !== null && this.predefinedTheme !== undefined) {
+            this.turnTheme(this.predefinedTheme);
         }
     };
     ThemeManager.prototype.findTheme = function (themeFromLocalStorage) {

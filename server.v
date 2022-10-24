@@ -16,7 +16,7 @@ const (
 
 [table: 'code_storage']
 struct CodeStorage {
-	id   int    [primary; sql: serial] // a field named `id` of integer type must be the first field
+	id   int    [primary; sql: serial]
 	code string [nonull]
 	hash string [nonull]
 }
@@ -84,14 +84,12 @@ fn run_in_sandbox(code string) string {
 	os.write_file(os.join_path(box_path, 'code.v'), code) or {
 		return 'Failed to write code to sandbox.'
 	}
-	// build_res := os.execute('$vexeroot/v -gc boehm ./server_data/code.v')
 	build_res := os.execute('isolate --box-id=$box_id --dir=$vexeroot --env=HOME=/box --processes=5 --mem=10000000 --wall-time=4 --quota=${1048576 / block_size},${1048576 / inode_ratio} --run -- $vexeroot/v -gc boehm code.v')
 	build_output := build_res.output.trim_right('\n')
 	log_code(code, build_output) or { eprintln('[WARNING] Failed to log code.') }
 	if build_res.exit_code != 0 {
 		return prettify(build_output)
 	}
-	// run_res := os.execute('./server_data/code')
 	run_res := os.execute('isolate --box-id=$box_id --dir=$vexeroot --env=HOME=/box --processes=3 --mem=3000000 --wall-time=4 --quota=${10240 / block_size},${10240 / inode_ratio} --run -- code')
 	return prettify(run_res.output.trim_right('\n'))
 }
@@ -141,7 +139,6 @@ fn (mut app App) get_saved_code(hash string) !string {
 }
 
 fn vfmt_code(code string) (string, bool) {
-	eprintln(vexeroot)
 	box_path, box_id := init_sandbox()
 	defer {
 		os.execute('isolate --box-id=$box_id --cleanup')
@@ -149,8 +146,6 @@ fn vfmt_code(code string) (string, bool) {
 	os.write_file(os.join_path(box_path, 'code.v'), code) or {
 		return 'Failed to write code to sandbox.', false
 	}
-	eprintln(vexeroot)
-	// vfmt_res := os.execute('$vexeroot/v fmt ./server_data/code.v')
 	vfmt_res := os.execute('isolate --box-id=$box_id --dir=$vexeroot --env=HOME=/box --processes=3 --mem=10000000 --wall-time=4 --quota=${1048576 / block_size},${1048576 / inode_ratio} --run -- $vexeroot/v fmt code.v')
 	mut vfmt_output := vfmt_res.output.trim_right('\n')
 	if vfmt_res.exit_code != 0 {

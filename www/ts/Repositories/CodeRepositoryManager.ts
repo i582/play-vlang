@@ -1,4 +1,3 @@
-
 /**
  * CodeRepositoryManager is responsible for managing the code repositories.
  */
@@ -8,9 +7,23 @@ class CodeRepositoryManager {
      * Base on `params` tries to select the appropriate repository to get the code.
      *
      * @param params The query parameters.
+     * @param config The playground configuration.
      * @returns {CodeRepository}
      */
-    static selectRepository(params: QueryParams): CodeRepository {
+    static selectRepository(params: QueryParams, config?: PlaygroundConfig): CodeRepository {
+        if (config.codeHash !== null && config.codeHash !== undefined) {
+            return new SharedCodeRepository(config.codeHash)
+        }
+
+        if (config.code !== null && config.code !== undefined) {
+            return new TextCodeRepository(config.code)
+        }
+
+        if (config.embed !== null && config.embed !== undefined && config.embed) {
+            // By default editor is empty for embed mode.
+            return new TextCodeRepository("")
+        }
+
         const repository = new LocalCodeRepository()
         const hash = params.params[SharedCodeRepository.QUERY_PARAM_NAME]
         if (hash !== null && hash !== undefined) {

@@ -1,0 +1,22 @@
+interface PlaygroundConfig {
+    embed: boolean
+    theme: ITheme
+    codeHash: string
+    code: string
+}
+
+class EmbedPlayground {
+    constructor(private element: HTMLElement, private config: PlaygroundConfig) {}
+
+    public mount() {
+        this.element.innerHTML = embedTemplate()
+        this.config.embed = true
+
+        const editorElement = this.element.querySelector('.js-playground') as HTMLTextAreaElement
+        const playground = new Playground(editorElement, this.config)
+
+        playground.registerAction(PlaygroundDefaultAction.RUN, () => {
+            playground.runCode()
+        })
+    }
+}

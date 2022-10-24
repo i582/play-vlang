@@ -14,37 +14,20 @@
     <link rel="stylesheet" href="css/help-tip.css">
 </head>
 <body>
-<div class="editor">
-    <textarea id="editor"></textarea>
 
-    <button class="js-run-code run">
-        <span class="icon">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_1_5)">
-                    <path class="run-icon" d="M14.4657 8.20966L2.4657 15.1379L2.4657 1.28145L14.4657 8.20966Z"/>
-                </g>
-                <defs>
-                    <clipPath id="clip0_1_5">
-                        <rect width="16" height="16" fill="white"/>
-                    </clipPath>
-                </defs>
-            </svg>
-        </span>
-    </button>
-</div>
-<div class="terminal closed">
-    <button class="js-close-terminal-button close-terminal-button">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect class="close-terminal-button-rect" x="1" y="8" width="13" height="1"/>
-        </svg>
-    </button>
-    <pre class="terminal__output">
-    </pre>
-</div>
 
-<a class="playground-link" href="#">Open in Playground →</a>
+
+<div class="place-for-playground playground"></div>
+<div class="place-for-playground2 playground"></div>
 
 </body>
+
+<style>
+    .playground {
+        width: 600px;
+        height: 300px;
+    }
+</style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
 
@@ -56,12 +39,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/clike/clike.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/xml/xml.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/css/css.js"></script>
-<script>
-    const isEmbed = true;
-</script>
+
 <script src="js/v.js"></script>
-<script src="js/examples.js"></script>
-<script src="js/main.js"></script>
+<script src="./js/playground.bundle.js"></script>
+<script src="js/embed.js"></script>
 
 
 </html>

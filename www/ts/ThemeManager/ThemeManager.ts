@@ -28,9 +28,11 @@ class ThemeManager {
     private readonly queryParams: QueryParams
     private readonly changeThemeButton: Element | null = null
     private fromQueryParam: boolean = false
+    private predefinedTheme: ITheme = null
 
-    constructor(queryParams: QueryParams) {
+    constructor(queryParams: QueryParams, predefinedTheme?: ITheme) {
         this.queryParams = queryParams
+        this.predefinedTheme = predefinedTheme
         this.changeThemeButton = document.querySelector('.js-playground__action-change-theme')
     }
 
@@ -51,6 +53,10 @@ class ThemeManager {
         if (themeFromLocalStorage !== null && themeFromLocalStorage !== undefined) {
             const theme = this.findTheme(themeFromLocalStorage)
             this.turnTheme(theme)
+        }
+
+        if (this.predefinedTheme !== null && this.predefinedTheme !== undefined) {
+            this.turnTheme(this.predefinedTheme)
         }
     }
 

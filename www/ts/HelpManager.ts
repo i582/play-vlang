@@ -10,6 +10,10 @@ class HelpManager {
     constructor(containingElement: HTMLElement) {
         this.containingElement = containingElement;
         this.element = containingElement.getElementsByClassName('js-help-wrapper')[0] as HTMLElement;
+        if (this.element === null || this.element === undefined) {
+            return
+        }
+
         this.helpOverlay = this.element.getElementsByClassName('js-help-overlay')[0] as HTMLElement;
         this.showHelpButton = this.element.getElementsByClassName('js-show-help')[0] as HTMLElement;
         this.closeHelpButton = this.element.getElementsByClassName('js-close-help')[0] as HTMLElement;

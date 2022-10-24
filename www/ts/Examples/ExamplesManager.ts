@@ -11,6 +11,10 @@ class ExamplesManager {
     }
 
     public mount() {
+        if (this.selectElement === null || this.selectElement === undefined) {
+            return
+        }
+
         const examplesSelectList = this.selectElement.querySelector('.select-box__list');
         const examplesSelectBox = this.selectElement.querySelector('.select-box__current');
 
