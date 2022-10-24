@@ -32,5 +32,6 @@ function copyTextToClipboard(text: string): void {
         console.log('Async: Copying to clipboard was successful!');
     }, function (err) {
         console.error('Async: Could not copy text: ', err);
+        fallbackCopyTextToClipboard(text);
     });
 }
