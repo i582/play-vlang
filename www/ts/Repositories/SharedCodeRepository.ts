@@ -1,26 +1,25 @@
+
 /**
  * Shared code repository using the server side SQL storage.
- * @extends CodeRepository
  */
-class SharedCodeRepository {
-    hash = null
+class SharedCodeRepository implements CodeRepository {
+    public static readonly QUERY_PARAM_NAME = "query"
 
-    constructor(hash) {
+    private readonly hash: string
+
+    constructor(hash: string) {
         this.hash = hash
     }
 
-    saveCode(code) {
+    saveCode(_: string) {
         // nothing to do
     }
 
-    getCode(onReady) {
-        if (this.hash === null) {
-            return null
-        }
-        return this.#getSharedCode(onReady)
+    getCode(onReady: (string) => void) {
+        return this.getSharedCode(onReady)
     }
 
-    #getSharedCode(onReady) {
+    private getSharedCode(onReady: (string) => void) {
         const data = new FormData()
         data.append("hash", this.hash)
 

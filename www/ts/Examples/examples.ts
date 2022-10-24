@@ -1,4 +1,9 @@
-const examples = [
+interface IExample {
+    name: string
+    code: string
+}
+
+const examples: IExample[] = [
     {
         name: "Hello, World!",
         code: `
@@ -30,21 +35,6 @@ areas := ['game', 'web', 'tools', 'science', 'systems', 'embedded', 'drivers', '
 for area in areas {
     println('Hello, $area developers!')
 }
-`
-    },
-    {
-        name: "HTTP + time",
-        code: `
-import time
-import net.http
-
-resp := http.get('https://vlang.io/utc_now') or {
-    println('failed to fetch data from the server')
-    return
-}
-
-t := time.unix(resp.text.int())
-println(t.format()) // 2022-10-22 23:19
 `
     },
     {
@@ -110,7 +100,7 @@ ERROR: file not writeble
 ') or {
     // \`err\` is a special variable that contains the error
     // in \`or {}\` blocks
-    eprintln('failed to read the file: $err')
+    eprintln('failed to write the file: $err')
     return
 }
 
@@ -183,23 +173,10 @@ fn get_int(data string, field string) int {
 // }
 `
     }
-].map((example) => {
+].map((example: IExample) => {
     example.code = example.code
         .replaceAll("    ", "    ")
         .replaceAll("&lt;", "<")
         .trim();
     return example;
 })
-
-const welcomeCode = `
-// Welcome to the V Playground!
-// Here you can edit, run, and share V code.
-// Let's start with a simple "Hello, World!" example:
-println('Hello, World!')
-
-// More examples are available in right dropdown list.
-// You can find Help for shortcuts in the bottom right corner or just press ⌃ + H (Ctrl + H).
-// See also change theme button in the top right corner. 
-// If you want to learn more about V, visit https://vlang.io
-// Enjoy!
-`.trim()

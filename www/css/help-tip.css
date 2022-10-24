@@ -27,10 +27,11 @@ html[data-theme='dark'] {
     color: var(--help-button-color);
     font-size: 25px;
 
-    position: fixed;
+    position: absolute;
 
     margin-top: -60px;
     right: 20px;
+    bottom: 20px;
 
     transition: background-color 100ms, border-color 100ms;
 }
@@ -69,7 +70,8 @@ html[data-theme='dark'] {
     padding: 15px 15px;
     right: 80px;
 
-    position: fixed;
+    bottom: 20px;
+    position: absolute;
 
     display: none;
 
@@ -110,7 +112,32 @@ html[data-theme='dark'] {
 
 .help-tip .shortcut .key {
     font-size: 14px;
-    background-color: #f0f0f0;
-    border-radius: 5px;
-    padding: 2px 5px;
+}
+
+.help-tip .shortcut .key kbd {
+    display: inline-block;
+
+    font-family: Inter, sans-serif;
+
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+    padding: 0.05em 0.3em 0.1em;
+    margin: 0 0.2em;
+
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 2px #fff inset;
+    background-color: #f7f7f7;
+}
+
+.help-tip .shortcut .key kbd:hover {
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.help-tip .shortcut .key kbd:active {
+    box-shadow: 0 0 0 2px #fff inset;
+    transform: translateY(1px);
 }

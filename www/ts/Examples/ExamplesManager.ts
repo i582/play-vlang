@@ -1,28 +1,37 @@
 class ExamplesManager {
-    constructor(editor) {
-        this.editor = editor
+    private selectElement: HTMLElement
+    private onSelectHandler: (example: IExample) => void = null
+
+    constructor() {
+        this.selectElement = document.querySelector('.js-examples__select') as HTMLElement
     }
 
-    initListeners() {
-        const examplesSelectList = document.querySelector('.js-examples-select .select-box__list');
-        const examplesSelectBox = document.querySelector('.js-examples-select .select-box__current');
-        if (examplesSelectList !== null) {
+    public registerOnSelectHandler(handler: (example: IExample) => void) {
+        this.onSelectHandler = handler
+    }
 
-            examples.forEach(function (example, index) {
+    public mount() {
+        const examplesSelectList = this.selectElement.querySelector('.select-box__list');
+        const examplesSelectBox = this.selectElement.querySelector('.select-box__current');
+
+        if (examplesSelectList !== null) {
+            examples.forEach(function (example: IExample, index: number) {
                 examplesSelectList.innerHTML += ExamplesManager.exampleElementListTemplate(example.name, index)
                 examplesSelectBox.innerHTML += ExamplesManager.exampleElementTemplate(example.name, index)
             })
         }
 
-        const selectOptions = document.querySelectorAll('.select-box__option');
-
-        selectOptions.forEach( (option) => {
+        const selectOptions = this.selectElement.querySelectorAll('.select-box__option');
+        selectOptions.forEach( (option: HTMLElement) => {
             option.addEventListener('click',  () => {
                 const exampleName = option.innerText
-                const example = examples.find(function (example) {
+                const example = examples.find( (example) => {
                     return example.name === exampleName
                 })
-                this.editor.setCode(example.code)
+
+                if (this.onSelectHandler !== null) {
+                    this.onSelectHandler(example)
+                }
             })
         })
     }

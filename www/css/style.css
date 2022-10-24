@@ -111,9 +111,28 @@ header .container button .icon .run-icon {
     fill: #fff;
 }
 
-.editor {
+.v-playground {
     position: relative;
-    height: calc(100vh - 115px - 250px);
+    max-height: calc(100vh - 70px);
+
+    display: grid;
+    grid-template-rows: 60% 40%;
+}
+
+.v-playground.full-height {
+    height: 100vh;
+}
+
+.v-playground.closed-terminal {
+    grid-template-rows: 100%;
+}
+
+.v-playground.closed-terminal .terminal {
+    display: none;
+}
+
+.v-playground .editor {
+    position: relative;
 }
 
 .CodeMirror {
@@ -150,11 +169,10 @@ header .container button .icon .run-icon {
 }
 
 .terminal {
-    height: 250px;
-}
+    height: 100%;
 
-.terminal.closed {
-    display: none;
+    display: grid;
+    grid-template-rows: 45px auto;
 }
 
 .terminal .header {
@@ -173,7 +191,7 @@ header .container button .icon .run-icon {
     background-color: var(--terminal-header);
 }
 
-.terminal .close-terminal-button {
+.terminal .terminal__close-button {
     padding: 2px 3px 0;
     border-radius: 5px;
     border: none;
@@ -181,17 +199,16 @@ header .container button .icon .run-icon {
     cursor: pointer;
 }
 
-.terminal .close-terminal-button .close-terminal-button-rect {
+.terminal .terminal__close-button .close-terminal-button-rect {
     fill: var(--terminal-close-button);
 }
 
-.terminal .close-terminal-button:hover {
+.terminal .terminal__close-button:hover {
     background-color: var(--terminal-close-button-hover);
 }
 
-.terminal .terminal-output {
+.terminal .terminal__output {
     width: 100%;
-    height: 100%;
     margin: 0;
     overflow: scroll;
 
@@ -208,7 +225,6 @@ header .container button .icon .run-icon {
 .examples-select {
     width: 220px;
     height: 30px;
-    background-color: #0000cc;
 
     position: fixed;
 

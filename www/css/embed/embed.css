@@ -13,7 +13,7 @@ body {
     background-color: var(--background-color);
 }
 
-.editor {
+.v-playground {
     position: relative;
     min-height: 100px;
     height: calc(100vh - 30px);
@@ -111,7 +111,7 @@ body {
     background-color: var(--terminal-close-button-hover);
 }
 
-.terminal .terminal-output {
+.terminal .terminal__output {
     width: 100%;
     height: 100%;
     margin: 0;
