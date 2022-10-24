@@ -44,7 +44,7 @@ class HelpManager {
         //  - macOS: ⌃
         //  - Windows/Linux: Ctrl
         if (!HelpManager.isMac) {
-            const shortcuts = document.querySelectorAll('.js-shortcut-value kbd.ctrl');
+            const shortcuts = document.querySelectorAll('.js-shortcut kbd.ctrl');
             shortcuts.forEach(function (shortcut: HTMLElement) {
                 shortcut.innerText = 'Ctrl'
             })

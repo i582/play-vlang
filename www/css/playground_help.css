@@ -18,7 +18,7 @@ html[data-theme='dark'] {
     --help-tip-text: #000;
 }
 
-.help {
+.playground__help-button {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -36,13 +36,13 @@ html[data-theme='dark'] {
     transition: background-color 100ms, border-color 100ms;
 }
 
-.help:hover {
+.playground__help-button:hover {
     cursor: pointer;
     border: 1px solid var(--help-button-border-hover);
     background-color: var(--help-button-background-hover);
 }
 
-.help-overlay {
+.playground__help-overlay {
     display: none;
     width: 100vw;
     height: 100vh;
@@ -52,15 +52,15 @@ html[data-theme='dark'] {
     z-index: 100;
 }
 
-.help-overlay.opened {
+.playground__help-overlay.opened {
     display: block;
 }
 
-.help-overlay:hover {
+.playground__help-overlay:hover {
     cursor: pointer;
 }
 
-.help-tip {
+.playground__help-tip {
     width: 300px;
     border-radius: 10px;
     background-color: #fff;
@@ -78,11 +78,11 @@ html[data-theme='dark'] {
     z-index: 1000;
 }
 
-.help-tip.opened {
+.playground__help-tip.opened {
     display: block;
 }
 
-.help-tip .header {
+.playground__help-tip .header {
     display: grid;
     grid-template-columns: auto max-content;
     align-content: center;
@@ -91,18 +91,18 @@ html[data-theme='dark'] {
     margin-bottom: 20px;
 }
 
-.help-tip .header .close-help-tip {
+.playground__help-tip .header .playground__close-help-tip-button {
     margin-top: 2px;
     border-radius: 5px;
     border: none;
     background-color: transparent;
 }
 
-.help-tip .header .close-help-tip:hover {
+.playground__help-tip .header .playground__close-help-tip-button:hover {
     cursor: pointer;
 }
 
-.help-tip .shortcut {
+.playground__help-tip .shortcut {
     display: grid;
     grid-template-columns: auto max-content;
     grid-column-gap: 10px;
@@ -110,11 +110,11 @@ html[data-theme='dark'] {
     margin-bottom: 15px;
 }
 
-.help-tip .shortcut .key {
+.playground__help-tip .shortcut .key {
     font-size: 14px;
 }
 
-.help-tip .shortcut .key kbd {
+.playground__help-tip .shortcut .key kbd {
     display: inline-block;
 
     font-family: Inter, sans-serif;
@@ -129,7 +129,7 @@ html[data-theme='dark'] {
     background-color: #f7f7f7;
 }
 
-.help-tip .shortcut .key kbd:hover {
+.playground__help-tip .shortcut .key kbd:hover {
     cursor: pointer;
     user-select: none;
     -webkit-user-select: none;
@@ -137,7 +137,7 @@ html[data-theme='dark'] {
     -ms-user-select: none;
 }
 
-.help-tip .shortcut .key kbd:active {
+.playground__help-tip .shortcut .key kbd:active {
     box-shadow: 0 0 0 2px #fff inset;
     transform: translateY(1px);
 }

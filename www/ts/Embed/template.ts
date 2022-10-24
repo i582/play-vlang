@@ -1,6 +1,6 @@
 const embedTemplate = () =>  `
 <div class="js-playground v-playground">
-    <div class="editor">
+    <div class="playground__editor">
         <textarea></textarea>
 
         <button class="js-playground__action-run run">
@@ -18,8 +18,8 @@ const embedTemplate = () =>  `
             </span>
         </button>
 
-        <div class="js-terminal terminal">
-            <button class="js-terminal__close terminal__close-button">
+        <div class="js-terminal playground__terminal">
+            <button class="js-terminal__close-buttom terminal__close-button">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect class="close-terminal-button-rect" x="1" y="8" width="13" height="1"/>
                 </svg>

@@ -28,7 +28,7 @@ class Terminal {
     }
 
     public mount() {
-        const closeButton = this.element.querySelector('.js-terminal__close') as HTMLElement
+        const closeButton = this.element.querySelector('.js-terminal__close-buttom') as HTMLElement
         if (closeButton === null || closeButton === undefined || this.onClose === null) {
             return;
         }

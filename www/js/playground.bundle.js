@@ -355,7 +355,7 @@ var Terminal = /** @class */ (function () {
         this.getTerminalOutputElement().innerHTML = "";
     };
     Terminal.prototype.mount = function () {
-        var closeButton = this.element.querySelector('.js-terminal__close');
+        var closeButton = this.element.querySelector('.js-terminal__close-buttom');
         if (closeButton === null || closeButton === undefined || this.onClose === null) {
             return;
         }
@@ -415,7 +415,7 @@ var HelpManager = /** @class */ (function () {
         //  - macOS: ⌃
         //  - Windows/Linux: Ctrl
         if (!HelpManager.isMac) {
-            var shortcuts = document.querySelectorAll('.js-shortcut-value kbd.ctrl');
+            var shortcuts = document.querySelectorAll('.js-shortcut kbd.ctrl');
             shortcuts.forEach(function (shortcut) {
                 shortcut.innerText = 'Ctrl';
             });
@@ -658,7 +658,7 @@ var EmbedPlayground = /** @class */ (function () {
     };
     return EmbedPlayground;
 }());
-var embedTemplate = function () { return "\n<div class=\"js-playground v-playground\">\n    <div class=\"editor\">\n        <textarea></textarea>\n\n        <button class=\"js-playground__action-run run\">\n            <span class=\"icon\">\n                <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                    <g clip-path=\"url(#clip0_1_5)\">\n                        <path class=\"run-icon\" d=\"M14.4657 8.20966L2.4657 15.1379L2.4657 1.28145L14.4657 8.20966Z\"/>\n                    </g>\n                    <defs>\n                        <clipPath id=\"clip0_1_5\">\n                            <rect width=\"16\" height=\"16\" fill=\"white\"/>\n                        </clipPath>\n                    </defs>\n                </svg>\n            </span>\n        </button>\n\n        <div class=\"js-terminal terminal\">\n            <button class=\"js-terminal__close terminal__close-button\">\n                <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                    <rect class=\"close-terminal-button-rect\" x=\"1\" y=\"8\" width=\"13\" height=\"1\"/>\n                </svg>\n            </button>\n            <pre class=\"js-terminal__output terminal__output\"></pre>\n        </div>\n    </div>\n    \n    <a class=\"playground-link\" href=\"#\">Open in Playground \u2192</a>\n</div>\n"; };
+var embedTemplate = function () { return "\n<div class=\"js-playground v-playground\">\n    <div class=\"playground__editor\">\n        <textarea></textarea>\n\n        <button class=\"js-playground__action-run run\">\n            <span class=\"icon\">\n                <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                    <g clip-path=\"url(#clip0_1_5)\">\n                        <path class=\"run-icon\" d=\"M14.4657 8.20966L2.4657 15.1379L2.4657 1.28145L14.4657 8.20966Z\"/>\n                    </g>\n                    <defs>\n                        <clipPath id=\"clip0_1_5\">\n                            <rect width=\"16\" height=\"16\" fill=\"white\"/>\n                        </clipPath>\n                    </defs>\n                </svg>\n            </span>\n        </button>\n\n        <div class=\"js-terminal playground__terminal\">\n            <button class=\"js-terminal__close-buttom terminal__close-button\">\n                <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                    <rect class=\"close-terminal-button-rect\" x=\"1\" y=\"8\" width=\"13\" height=\"1\"/>\n                </svg>\n            </button>\n            <pre class=\"js-terminal__output terminal__output\"></pre>\n        </div>\n    </div>\n    \n    <a class=\"playground-link\" href=\"#\">Open in Playground \u2192</a>\n</div>\n"; };
 /**
  * ThemeManager is responsible for managing the theme of the playground.
  * It will register a callback to the change theme button and will update the

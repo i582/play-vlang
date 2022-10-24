@@ -46,4 +46,3 @@ div.CodeMirror.cm-s-light span.CodeMirror-nonmatchingbracket { color: #a22; }
 .cm-s-light .CodeMirror-crosshair { cursor: crosshair; }
 .cm-s-light .CodeMirror-line::selection, .CodeMirror-line > span::selection, .CodeMirror-line > span > span::selection { background: #d7d4f0; }
 .cm-s-light .CodeMirror-line::-moz-selection, .CodeMirror-line > span::-moz-selection, .CodeMirror-line > span > span::-moz-selection { background: #d7d4f0; }
-

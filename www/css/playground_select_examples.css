@@ -1,3 +1,27 @@
+html {
+    --select-background: #fff;
+    --select-background-hover: #f7f8fa;
+    --select-color-hover: #000;
+    --select-color: #000;
+}
+
+html[data-theme='dark'] {
+    --select-background: #2a2a2d;
+    --select-background-hover: #393b41;
+    --select-color-hover: #f7f8fa;
+    --select-color: #f7f8fa;
+}
+
+.playground__examples__select {
+    width: 220px;
+    height: 30px;
+
+    position: absolute;
+
+    top: 20px;
+    right: 20px;
+}
+
 .select-box {
     display: block;
     width: 100%;
