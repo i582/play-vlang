@@ -1,6 +1,6 @@
 # V Playground: Run, Edit, Share V Code Online
 
-This repository contains the source code for V's playground (play.vlang.io).
+This repository contains the source code for V's playground (https://play.vlang.io).
 
 ![](./docs/images/playground.png)
 
