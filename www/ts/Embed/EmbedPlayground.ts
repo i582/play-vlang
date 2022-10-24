@@ -6,7 +6,7 @@ class EmbedPlayground {
         this.config.embed = true
 
         const editorElement = this.element.querySelector('.js-playground') as HTMLTextAreaElement
-        const playground = new Playground(editorElement, this.config)
+        const playground = new Playground(editorElement)
 
         playground.registerAction(PlaygroundDefaultAction.RUN, () => {
             playground.runCode()
