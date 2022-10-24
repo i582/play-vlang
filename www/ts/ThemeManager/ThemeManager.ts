@@ -53,10 +53,12 @@ class ThemeManager {
         if (themeFromLocalStorage !== null && themeFromLocalStorage !== undefined) {
             const theme = this.findTheme(themeFromLocalStorage)
             this.turnTheme(theme)
+            return
         }
 
         if (this.predefinedTheme !== null && this.predefinedTheme !== undefined) {
             this.turnTheme(this.predefinedTheme)
+            return
         }
 
         // By default, we turn the dark theme.
