@@ -94,7 +94,7 @@ class Playground {
 
                 this.writeToTerminal("Share link: " + link)
                 copyTextToClipboard(link, () => {
-                    this.writeToTerminal("Link copied to clipboard.")
+                    this.writeToTerminal("\nLink copied to clipboard.")
                 })
 
                 this.writeToTerminal("Note: current page has changed its own URL, it now equals the share link shown above.")

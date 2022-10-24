@@ -512,8 +512,9 @@ var Playground = /** @class */ (function () {
             _this.queryParams.updateURLParameter(SharedCodeRepository.QUERY_PARAM_NAME, result.hash);
             var link = window.location.href;
             _this.writeToTerminal("Share link: " + link);
-            copyTextToClipboard(link);
-            _this.writeToTerminal("Link copied to clipboard.");
+            copyTextToClipboard(link, function () {
+                _this.writeToTerminal("\nLink copied to clipboard.");
+            });
             _this.writeToTerminal("Note: current page has changed its own URL, it now equals the share link shown above.");
         })
             .catch(function (err) {
