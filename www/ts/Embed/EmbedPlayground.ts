@@ -1,10 +1,3 @@
-interface PlaygroundConfig {
-    embed: boolean
-    theme: ITheme
-    codeHash: string
-    code: string
-}
-
 class EmbedPlayground {
     constructor(private element: HTMLElement, private config: PlaygroundConfig) {}
 
