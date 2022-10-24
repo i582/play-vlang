@@ -707,6 +707,8 @@ var ThemeManager = /** @class */ (function () {
         if (this.predefinedTheme !== null && this.predefinedTheme !== undefined) {
             this.turnTheme(this.predefinedTheme);
         }
+        // By default, we turn the dark theme.
+        this.turnTheme(new Dark());
     };
     ThemeManager.prototype.findTheme = function (themeFromLocalStorage) {
         var foundThemes = this.themes.filter(function (theme) { return theme.name() === themeFromLocalStorage; });

@@ -58,6 +58,9 @@ class ThemeManager {
         if (this.predefinedTheme !== null && this.predefinedTheme !== undefined) {
             this.turnTheme(this.predefinedTheme)
         }
+
+        // By default, we turn the dark theme.
+        this.turnTheme(new Dark())
     }
 
     private findTheme(themeFromLocalStorage: string) {
