@@ -251,13 +251,13 @@ var CodeRepositoryManager = /** @class */ (function () {
      * @returns {CodeRepository}
      */
     CodeRepositoryManager.selectRepository = function (params, config) {
-        if (config.codeHash !== null && config.codeHash !== undefined) {
+        if (config !== undefined && config.codeHash !== null && config.codeHash !== undefined) {
             return new SharedCodeRepository(config.codeHash);
         }
-        if (config.code !== null && config.code !== undefined) {
+        if (config !== undefined && config.code !== null && config.code !== undefined) {
             return new TextCodeRepository(config.code);
         }
-        if (config.embed !== null && config.embed !== undefined && config.embed) {
+        if (config !== undefined && config.embed !== null && config.embed !== undefined && config.embed) {
             // By default editor is empty for embed mode.
             return new TextCodeRepository("");
         }
@@ -443,24 +443,22 @@ var PlaygroundDefaultAction;
     PlaygroundDefaultAction["CHANGE_THEME"] = "change-theme";
 })(PlaygroundDefaultAction || (PlaygroundDefaultAction = {}));
 var Playground = /** @class */ (function () {
-    function Playground(editorElement, config) {
+    function Playground(editorElement) {
         var _this = this;
         this.queryParams = new QueryParams(window.location.search);
-        this.repository = CodeRepositoryManager.selectRepository(this.queryParams, config);
+        this.repository = CodeRepositoryManager.selectRepository(this.queryParams);
         this.editor = new Editor(editorElement, this.repository);
-        this.themeManager = new ThemeManager(this.queryParams, config.theme);
+        this.themeManager = new ThemeManager(this.queryParams);
         this.themeManager.registerOnChange(function (theme) {
             _this.editor.setTheme(theme);
         });
         this.themeManager.loadTheme();
-        if (!config.embed) {
-            this.examplesManager = new ExamplesManager();
-            this.examplesManager.registerOnSelectHandler(function (example) {
-                _this.editor.setCode(example.code);
-            });
-            this.examplesManager.mount();
-            this.helpManager = new HelpManager(editorElement);
-        }
+        this.examplesManager = new ExamplesManager();
+        this.examplesManager.registerOnSelectHandler(function (example) {
+            _this.editor.setCode(example.code);
+        });
+        this.examplesManager.mount();
+        this.helpManager = new HelpManager(editorElement);
     }
     Playground.prototype.registerAction = function (name, callback) {
         var actionButton = document.getElementsByClassName("js-playground__action-".concat(name))[0];
@@ -684,8 +682,8 @@ var ThemeManager = /** @class */ (function () {
         this.themes = [new Dark(), new Light()];
         this.onChange = [];
         this.changeThemeButton = null;
-        this.fromQueryParam = false;
         this.predefinedTheme = null;
+        this.fromQueryParam = false;
         this.queryParams = queryParams;
         this.predefinedTheme = predefinedTheme;
         this.changeThemeButton = document.querySelector('.js-playground__action-change-theme');

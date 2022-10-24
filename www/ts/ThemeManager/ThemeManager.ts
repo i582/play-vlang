@@ -27,8 +27,8 @@ class ThemeManager {
     private onChange: ThemeCallback[] = []
     private readonly queryParams: QueryParams
     private readonly changeThemeButton: Element | null = null
+    private readonly predefinedTheme: ITheme = null
     private fromQueryParam: boolean = false
-    private predefinedTheme: ITheme = null
 
     constructor(queryParams: QueryParams, predefinedTheme?: ITheme) {
         this.queryParams = queryParams

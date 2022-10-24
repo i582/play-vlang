@@ -11,15 +11,15 @@ class CodeRepositoryManager {
      * @returns {CodeRepository}
      */
     static selectRepository(params: QueryParams, config?: PlaygroundConfig): CodeRepository {
-        if (config.codeHash !== null && config.codeHash !== undefined) {
+        if (config !== undefined && config.codeHash !== null && config.codeHash !== undefined) {
             return new SharedCodeRepository(config.codeHash)
         }
 
-        if (config.code !== null && config.code !== undefined) {
+        if (config !== undefined &&config.code !== null && config.code !== undefined) {
             return new TextCodeRepository(config.code)
         }
 
-        if (config.embed !== null && config.embed !== undefined && config.embed) {
+        if (config !== undefined &&config.embed !== null && config.embed !== undefined && config.embed) {
             // By default editor is empty for embed mode.
             return new TextCodeRepository("")
         }

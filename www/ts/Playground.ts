@@ -1,4 +1,3 @@
-
 enum PlaygroundDefaultAction {
     RUN = 'run',
     FORMAT = 'format',
@@ -14,26 +13,24 @@ class Playground {
     private readonly examplesManager: ExamplesManager
     private readonly helpManager: HelpManager
 
-    constructor(editorElement: HTMLTextAreaElement, config?: PlaygroundConfig) {
+    constructor(editorElement: HTMLTextAreaElement) {
         this.queryParams = new QueryParams(window.location.search)
-        this.repository = CodeRepositoryManager.selectRepository(this.queryParams, config)
+        this.repository = CodeRepositoryManager.selectRepository(this.queryParams)
         this.editor = new Editor(editorElement, this.repository)
 
-        this.themeManager = new ThemeManager(this.queryParams, config.theme)
+        this.themeManager = new ThemeManager(this.queryParams)
         this.themeManager.registerOnChange((theme: ITheme): void => {
             this.editor.setTheme(theme)
         })
         this.themeManager.loadTheme()
 
-        if (!config.embed) {
-            this.examplesManager = new ExamplesManager()
-            this.examplesManager.registerOnSelectHandler((example: IExample): void => {
-                this.editor.setCode(example.code)
-            })
-            this.examplesManager.mount()
+        this.examplesManager = new ExamplesManager()
+        this.examplesManager.registerOnSelectHandler((example: IExample): void => {
+            this.editor.setCode(example.code)
+        })
+        this.examplesManager.mount()
 
-            this.helpManager = new HelpManager(editorElement)
-        }
+        this.helpManager = new HelpManager(editorElement)
     }
 
     public registerAction(name: PlaygroundDefaultAction | string, callback: () => void): void {
