@@ -651,7 +651,7 @@ var EmbedPlayground = /** @class */ (function () {
         this.element.innerHTML = embedTemplate();
         this.config.embed = true;
         var editorElement = this.element.querySelector('.js-playground');
-        var playground = new Playground(editorElement, this.config);
+        var playground = new Playground(editorElement);
         playground.registerAction(PlaygroundDefaultAction.RUN, function () {
             playground.runCode();
         });

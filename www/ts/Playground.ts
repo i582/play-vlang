@@ -13,7 +13,7 @@ class Playground {
     private readonly examplesManager: ExamplesManager
     private readonly helpManager: HelpManager
 
-    constructor(editorElement: HTMLTextAreaElement) {
+    constructor(editorElement: HTMLElement) {
         this.queryParams = new QueryParams(window.location.search)
         this.repository = CodeRepositoryManager.selectRepository(this.queryParams)
         this.editor = new Editor(editorElement, this.repository)

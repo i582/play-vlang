@@ -11,3 +11,6 @@ build: build_ts
 
 run: build
 	./server
+
+run_docker: build
+	docker-compose up -d

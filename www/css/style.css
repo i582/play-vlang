@@ -114,6 +114,9 @@ header .container button .icon .run-icon {
 .v-playground {
     position: relative;
     max-height: calc(100vh - 70px);
+
+    display: grid;
+    grid-template-rows: 60% 40%;
 }
 
 .v-playground.full-height {
@@ -130,10 +133,6 @@ header .container button .icon .run-icon {
 
 .v-playground .editor {
     position: relative;
-
-    display: grid;
-    grid-template-rows: 60% 40%;
-    height: 100%;
 }
 
 .CodeMirror {
