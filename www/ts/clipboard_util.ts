@@ -17,7 +17,7 @@ function fallbackCopyTextToClipboard(text: string): void {
         const msg = successful ? 'successful' : 'unsuccessful';
         console.log('Fallback: Copying text command was ' + msg);
     } catch (err) {
-        console.error('Fallback: Oops, unable to copy', err);
+        console.log('Fallback: Oops, unable to copy', err);
     }
 
     document.body.removeChild(textArea);
@@ -32,6 +32,6 @@ function copyTextToClipboard(text: string): void {
         console.log('Async: Copying to clipboard was successful!');
     }, function (err) {
         fallbackCopyTextToClipboard(text);
-        console.error('Async: Could not copy text: ', err, 'fallback to old method');
+        console.log('Async: Could not copy text: ', err, 'fallback to old method');
     });
 }

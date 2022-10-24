@@ -627,7 +627,7 @@ function fallbackCopyTextToClipboard(text) {
         console.log('Fallback: Copying text command was ' + msg);
     }
     catch (err) {
-        console.error('Fallback: Oops, unable to copy', err);
+        console.log('Fallback: Oops, unable to copy', err);
     }
     document.body.removeChild(textArea);
 }
@@ -639,8 +639,8 @@ function copyTextToClipboard(text) {
     navigator.clipboard.writeText(text).then(function () {
         console.log('Async: Copying to clipboard was successful!');
     }, function (err) {
-        console.error('Async: Could not copy text: ', err, 'fallback to old method');
         fallbackCopyTextToClipboard(text);
+        console.log('Async: Could not copy text: ', err, 'fallback to old method');
     });
 }
 var EmbedPlayground = /** @class */ (function () {
