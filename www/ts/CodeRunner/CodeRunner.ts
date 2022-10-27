@@ -35,6 +35,24 @@ class CodeRunner {
             .then(output => new RunCodeResult(output))
     }
 
+    public static runTests(code: string): Promise<RunCodeResult> {
+        const data = new FormData()
+        data.append("code", code)
+
+        return fetch("/run_tests", {
+            method: "post",
+            body: data,
+        })
+            .then(resp => {
+                if (resp.status != 200) {
+                    throw new Error("Can't run tests")
+                }
+
+                return resp.text()
+            })
+            .then(output => new RunCodeResult(output))
+    }
+
     public static formatCode(code: string): Promise<FormatCodeResult> {
         const data = new FormData()
         data.append("code", code)

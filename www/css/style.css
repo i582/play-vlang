@@ -37,6 +37,10 @@ header .container .title {
     font-size: 22px;
 }
 
+header .container .title sup {
+    font-size: 11px;
+}
+
 header .container .title .title-v-part {
     font-weight: 700;
     color: white;
@@ -51,7 +55,7 @@ header .container .buttons {
     grid-column-gap: 8px;
 }
 
-header .container button {
+header .container .action-button {
     height: 38px;
     padding: 8px 20px 6px 17px;
     border: none;
@@ -65,21 +69,119 @@ header .container button {
     grid-template-columns: max-content max-content;
     grid-column-gap: 8px;
 
-    transition: background-color 150ms ease 100ms
+    transition: background-color 150ms ease 100ms;
 }
 
-header .container button:hover {
+header .container .action-button:hover {
     cursor: pointer;
     background-color: #393b41;
 }
 
-header .container button.run-style-button {
+header .container .run-button-select {
+    height: 38px;
+    border: none;
+    color: #fff;
+    font-size: 15px;
+    line-height: 1.5;
+
+    display: grid;
+
+    transition: background-color 150ms ease 100ms;
+
     margin-left: 20px;
+    grid-template-columns: max-content max-content max-content;
+}
+
+header .container .run-button-select button {
+    padding: 8px 20px 6px 17px;
+    border-radius: 8px 0 0 8px;
+
+    background-color: #3474f0;
+
+    border: none;
+    color: #fff;
+    font-size: 15px;
+    line-height: 1.5;
+
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-column-gap: 8px;
+    align-items: center;
+}
+
+header .container .run-button-select button:hover {
+    cursor: pointer;
+    background-color: #2a5ed0;
+}
+
+header .container .run-button-select button .label {
+    margin-top: -2px;
+}
+
+header .container .run-button-select .open-run-select {
+    border-radius: 0 8px 8px 0;
+
+    padding: 8px 7px 6px 7px;
+
     background-color: #3474f0;
 }
 
-header .container button.run-style-button:hover {
+header .container .run-button-select .open-run-select:hover {
+    cursor: pointer;
     background-color: #2a5ed0;
+}
+
+header .container .run-button-select .open-run-select .open-icon {
+    padding: 3px 0 0 0;
+}
+
+header .container .run-button-select .run-configurations-list {
+    width: 200px;
+
+    position: absolute;
+    top: 57px;
+    right: 102px;
+
+    background-color: #2c2d2f;
+    border: 1px solid #46484e;
+    border-radius: 8px;
+    z-index: 1000;
+
+    padding: 15px 10px;
+
+    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.3);
+}
+
+header .container .run-button-select .run-configurations-list.hidden {
+    display: none;
+}
+
+header .container .run-button-select .run-configurations-list h4 {
+    margin: 0 0 5px;
+    padding-left: 10px;
+    color: #6e737b;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+header .container .run-button-select .run-configurations-list .configuration {
+    padding: 5px 7px 2px;
+    border-radius: 6px;
+
+    font-size: 15px;
+
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-column-gap: 8px;
+}
+
+header .container .run-button-select .run-configurations-list .configuration:hover {
+    cursor: pointer;
+    background-color: #2f446e;
+}
+
+header .container .run-button-select .run-configurations-list .configuration span {
+    margin-top: -2px;
 }
 
 header .container button.theme {
